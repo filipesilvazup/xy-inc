@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="50dp"
+    android:layout_width="match_parent"
+    tools:context="com.uberlandia.financas.filipe.exemploomdb.MainActivity">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/img_nova"/>
+    <EditText
+
+        android:layout_height="wrap_content"
+        android:hint="Nome do Filme"
+        android:id="@+id/edt_nome"
+        android:textSize="25sp"
+        android:inputType="text"
+        android:layout_width="match_parent"/>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent">
+
+        <Button
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_buscar_filme"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            android:text="Buscar Filme"
+            android:textColor="#FDFDFD"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"/>
+
+    </LinearLayout>
+
+
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_movies"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/my_text_view"/>
+    </FrameLayout>
+
+
+
+
+
+
+</LinearLayout>
+
+
+
