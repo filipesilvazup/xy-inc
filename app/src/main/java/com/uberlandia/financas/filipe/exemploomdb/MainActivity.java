@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                         byte[] array = stream.toByteArray();
 
-                        System.out.println(titulo.getText().toString());
                         Intent it = new Intent();
                         Intent intent = new Intent(MainActivity.this, CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
@@ -77,15 +76,6 @@ public class MainActivity extends AppCompatActivity {
                         bundle.putByteArray("img", stream.toByteArray());
                         intent.putExtras(bundle);
                         startActivity(intent);
-
-/*
-
-                        Bitmap bitmapImage = BitmapFactory.decodeByteArray(array, 0, array.length);
-                        nova.setImageBitmap(bitmapImage);
-                        System.out.println(stream.toByteArray());
-*/
-
-
                     }
                 })
         );
@@ -100,12 +90,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilme(filme.getText().toString(), "45023bb7");
+                Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7");
                 call.enqueue(new Callback<Result>() {
                     @Override
                     public void onResponse(Call<Result> call, Response<Result> response) {
                         Result f = response.body();
-
                         adapter = new MyAdapter(f.getSearch());
                         listMovies.setAdapter(adapter);
 
