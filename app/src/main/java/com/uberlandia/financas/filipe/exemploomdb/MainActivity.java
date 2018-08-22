@@ -14,8 +14,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +30,7 @@ import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerViewClickListe
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.internal.Util;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                         TextView imdbId = v.findViewById(R.id.tv_imdbID);
                         ImageView img = v.findViewById(R.id.img_filme);
 
-                        Bitmap bitmap = ((BitmapDrawable)img.getDrawable()).getBitmap();
+                        Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                         byte[] array = stream.toByteArray();
@@ -84,9 +87,43 @@ public class MainActivity extends AppCompatActivity {
         final EditText filme = findViewById(R.id.edt_nome);
         filme.setText("Batman");
 
-        Button btnBuscar = findViewById(R.id.btn_buscar_filme);
-        context = this;
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
+        filme.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7");
+                    call.enqueue(new Callback<Result>() {
+                        @Override
+                        public void onResponse(Call<Result> call, Response<Result> response) {
+                            Result f = response.body();
+                            System.out.println(f.Response + ""+ f.getSearch());
+                            if (f.getResponse()) {
+                                adapter = new MyAdapter(f.getSearch());
+                                listMovies.setAdapter(adapter);
+                            }else {
+                                ArrayList<Filme> arrayNaoEncontrado = new ArrayList<Filme>();
+                                arrayNaoEncontrado.add(new Filme(filme.getText().toString() +" Não foi encontrado", "00", "", "00", ""));
+                                adapter = new MyAdapter(arrayNaoEncontrado);
+                                listMovies.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Result> call, Throwable t) {
+                            Log.e("FilmeService   ", "Erro ao buscar o filme:" + t.getMessage());
+                        }
+                    });
+                }
+
+                return true;
+            }
+        });
+
+        //Button btnBuscar = findViewById(R.id.btn_buscar_filme);
+
+     /*   btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -105,9 +142,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
     }
-
 
 
 }

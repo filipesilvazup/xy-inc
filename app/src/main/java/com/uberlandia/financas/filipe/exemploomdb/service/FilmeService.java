@@ -1,6 +1,7 @@
 package com.uberlandia.financas.filipe.exemploomdb.service;
 
 import com.uberlandia.financas.filipe.exemploomdb.Filme;
+import com.uberlandia.financas.filipe.exemploomdb.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.Result;
 
 import retrofit2.Call;
@@ -16,6 +17,6 @@ public interface FilmeService {
     Call<Result> buscarFilmes(@Query("s") String filme, @Query("apikey") String apikey);
 
     @GET("?plot=full")
-    Call<Result> buscarFilme(@Query("i") String filme, @Query("apikey") String apikey);
+    Call<FilmeSelecionado> buscarFilme(@Query("i") String imdbId, @Query("apikey") String apikey);
 
 }

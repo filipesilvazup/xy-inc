@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +18,7 @@ import retrofit2.Response;
 public class CadastrarFilmeActivity extends AppCompatActivity {
     private  byte[] array;
     private String imdbId;
-    private ImageView iv_poster;
+    private SquareImageView iv_poster;
     private Bitmap bitmapImage;
 
 
@@ -29,20 +32,23 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         imdbId = bundle.getString("imdbid");
         array = bundle.getByteArray("img");
         bitmapImage = BitmapFactory.decodeByteArray(array, 0, array.length);
+
         iv_poster.setImageBitmap(bitmapImage);
 
-        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
-        call.enqueue(new Callback<Result>() {
+        Call<FilmeSelecionado> call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
+        call.enqueue(new Callback<FilmeSelecionado>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
-                Result f = response.body();
+            public void onResponse(Call<FilmeSelecionado> call, Response<FilmeSelecionado> response) {
+                FilmeSelecionado f = response.body();
+                System.out.println(f.toString());
 
-                adapter = new MyAdapter(f.getSearch());
-                listMovies.setAdapter(adapter);
+
+                //adapter = new MyAdapter(f.getSearch());
+                //listMovies.setAdapter(adapter);
 
             }
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<FilmeSelecionado> call, Throwable t) {
                 Log.e("FilmeService   ", "Erro ao buscar o filme:" + t.getMessage());
             }
         });
