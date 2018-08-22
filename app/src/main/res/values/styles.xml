@@ -15,7 +15,7 @@
         <item name="borderWidth">0dp</item>
         <item name="elevation">6dp</item>
         <item name="pressedTranslationZ">12dp</item>
-        <item name="rippleColor">@android:color/white</item>
+        <item name="rippleColor">@android:color/black</item>
     </style>
 
 </resources>

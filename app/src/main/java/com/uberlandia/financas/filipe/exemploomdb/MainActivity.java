@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
-                        bundle.putByteArray("img", stream.toByteArray());
+                        //bundle.putByteArray("img", stream.toByteArray());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
