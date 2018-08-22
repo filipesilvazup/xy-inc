@@ -1,6 +1,36 @@
 package com.uberlandia.financas.filipe.exemploomdb;
 
+import java.util.ArrayList;
+
 public class FilmeSelecionado {
+
+    public class Ratings{
+        private String Source;
+        private String Value;
+
+        public String getSource() {
+            return Source;
+        }
+
+        public void setSource(String source) {
+            Source = source;
+        }
+
+        public String getValue() {
+            return Value;
+        }
+
+        public void setValue(String value) {
+            Value = value;
+        }
+
+        @Override
+        public String toString() {
+            return  "Source: " + Source + "\n" +
+                    "Value: " + Value + "\n";
+        }
+    }
+
     private String Title;
     private String Year;
     private String Rated;
@@ -15,7 +45,7 @@ public class FilmeSelecionado {
     private String Country;
     private String Awards;
     private String Poster;
-    private String Ratings;//criar classe para funcionar
+    private ArrayList<Ratings> Ratings ;//criar classe para funcionar
     private String Metascore;
     private String imdbRating;
     private String imdbVotes;
@@ -27,4 +57,38 @@ public class FilmeSelecionado {
     private String Website;
     private String Response;
 
+    public String getPoster() {
+        return Poster;
+    }
+
+    @Override
+    public String toString() {
+        return "FilmeSelecionado{" +
+                "Title='" + Title + '\'' +
+                ", Year='" + Year + '\'' +
+                ", Rated='" + Rated + '\'' +
+                ", Released='" + Released + '\'' +
+                ", Runtime='" + Runtime + '\'' +
+                ", Genre='" + Genre + '\'' +
+                ", Director='" + Director + '\'' +
+                ", Writer='" + Writer + '\'' +
+                ", Actors='" + Actors + '\'' +
+                ", Plot='" + Plot + '\'' +
+                ", Language='" + Language + '\'' +
+                ", Country='" + Country + '\'' +
+                ", Awards='" + Awards + '\'' +
+                ", Poster='" + Poster + '\'' +
+                ", Ratings='" + Ratings + '\'' +
+                ", Metascore='" + Metascore + '\'' +
+                ", imdbRating='" + imdbRating + '\'' +
+                ", imdbVotes='" + imdbVotes + '\'' +
+                ", imdbID='" + imdbID + '\'' +
+                ", Type='" + Type + '\'' +
+                ", DVD='" + DVD + '\'' +
+                ", BoxOffice='" + BoxOffice + '\'' +
+                ", Production='" + Production + '\'' +
+                ", Website='" + Website + '\'' +
+                ", Response='" + Response + '\'' +
+                '}';
+    }
 }

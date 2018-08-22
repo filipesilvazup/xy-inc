@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerViewClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,15 +12,15 @@ import java.util.List;
  */
 
 public class Result implements RecyclerViewClickListener {
-    public List<Filme> Search;
+    public ArrayList<Filme> Search;
     public String totalResults;
     public Boolean Response;
 
-    public List<Filme> getSearch() {
+    public ArrayList<Filme> getSearch() {
         return Search;
     }
 
-    public void setSearch(List<Filme> search) {
+    public void setSearch(ArrayList<Filme> search) {
         Search = search;
     }
 
