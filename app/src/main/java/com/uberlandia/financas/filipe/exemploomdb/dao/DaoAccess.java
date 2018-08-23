@@ -25,6 +25,9 @@ public interface DaoAccess {
     @Query("SELECT * FROM FilmeSelecionado")
     List<FilmeSelecionado> findAll();
 
+    @Query("SELECT * FROM FilmeSelecionado WHERE Title LIKE :titulo")
+    List<FilmeSelecionado> findFilmeByName(String titulo);
+
     @Update
     void updateFilme(FilmeSelecionado movies);
 
