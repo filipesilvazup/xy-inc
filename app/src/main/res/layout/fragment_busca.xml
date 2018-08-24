@@ -9,11 +9,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         tools:context="com.uberlandia.financas.filipe.exemploomdb.BuscaFragment">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="clique"
-            android:id="@+id/btn1"/>
         <EditText
             android:layout_below="@+id/btn1"
             android:layout_height="wrap_content"

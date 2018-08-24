@@ -1,5 +1,6 @@
 package com.uberlandia.financas.filipe.exemploomdb;
 
+import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,36 +77,24 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
                 builder.setMessage("Deseja salvar o filme: " + f.getTitle() + " ?")
                         .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                            //salvando Filme
                             public void onClick(DialogInterface dialog, int id) {
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    movieDatabase.daoAccess().insertFilme(f);
-                                                    Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
-                                                            .setAction("Action", null).show();
-                                                }
-                                            }).start();
-                                        } else {
-                                            Snackbar.make(view, "VOCÊ JÁ CADASTROU ESSE FILME " + jacadastrou, Snackbar.LENGTH_LONG)
-                                                    .setAction("Action", null).show();
-                                        }
-                                    }
-                                }).start();
 
+                                if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
 
+                                    movieDatabase.daoAccess().insertFilme(f);
+                                    Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+
+                                } else {
+                                    Snackbar.make(view, "VOCÊ JÁ CADASTROU ESSE FILME " + jacadastrou, Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+                                }
                             }
                         })
                         .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // builder.setCancelable(true);
                             }
                         });
-                // builder.create();
                 builder.show();
             }
         });

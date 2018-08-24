@@ -17,9 +17,9 @@ public abstract class FilmeDatabase extends RoomDatabase {
         if (filmeDatabase == null) {
             filmeDatabase = Room.databaseBuilder(context.getApplicationContext(), FilmeDatabase.class, "db_filme")
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build();
         }
-
         return filmeDatabase;
     }
 

@@ -85,31 +85,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
-                        //bundle.putByteArray("img", stream.toByteArray());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 })
         );
-
-        Button btn = findViewById(R.id.btn1);
-        btn.setOnClickListener(new View.OnClickListener() {
-            FilmeDatabase movieDatabase = FilmeDatabase.getInstance(getApplicationContext());
-
-            @Override
-            public void onClick(final View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Snackbar.make(view, "" + movieDatabase.daoAccess().findFilmeByName("%" + filme.getText().toString() + "%"), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                }).start();
-            }
-        });
-
-
         filme = findViewById(R.id.edt_nome);
         filme.setText("Batman");
 

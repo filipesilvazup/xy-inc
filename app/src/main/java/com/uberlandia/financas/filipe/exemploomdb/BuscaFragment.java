@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 
@@ -31,9 +32,7 @@ import retrofit2.Response;
 
 public class BuscaFragment extends Fragment {
 
-    public BuscaFragment() {
-        // Required empty public constructor
-    }
+    public BuscaFragment() {}
 
     private RecyclerView listMovies;
     private RecyclerView.Adapter adapter;
@@ -53,13 +52,10 @@ public class BuscaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_busca, container, false);
-
 
         smilling = new String(Character.toChars(smillingUnicode));
         getActivity().setTitle("Busque por um filme " + smilling);
-
 
         listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
         listMovies.setHasFixedSize(true);
@@ -85,39 +81,20 @@ public class BuscaFragment extends Fragment {
                         bundle.putString("imdbid", imdbId.getText().toString());
                         //bundle.putByteArray("img", stream.toByteArray());
                         intent.putExtras(bundle);
-                        startActivity(intent);
+                        getActivity().startActivityForResult(intent,1);
+
                     }
                 })
         );
-
-        Button btn = view.findViewById(R.id.btn1);
-        btn.setOnClickListener(new View.OnClickListener() {
-            FilmeDatabase movieDatabase = FilmeDatabase.getInstance(getActivity().getApplicationContext());
-
-            @Override
-            public void onClick(final View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Snackbar.make(view, "" + movieDatabase.daoAccess().findFilmeByName("%" + filme.getText().toString() + "%"), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                }).start();
-            }
-        });
-
 
         filme = view.findViewById(R.id.edt_nome);
         filme.setText("Batman");
 
         filme.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    // Perform action on key press
                     Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7");
                     call.enqueue(new Callback<Result>() {
                         @Override

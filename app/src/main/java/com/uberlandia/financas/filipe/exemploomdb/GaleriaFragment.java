@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 
@@ -40,83 +45,62 @@ public class GaleriaFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private TextView listMovies;
+    private RecyclerView listMovies;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public Context context;
     private int smillingUnicode = 0x1F60A;
     private String smilling;
     private EditText filme;
-    FilmeDatabase movieDatabase;
+    private FilmeDatabase movieDatabase;
+    private List<FilmeSelecionado> todosFilmes;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toast.makeText(getContext(), "OnDestroy", Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(getContext(), "OnDestroy", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        todosFilmes = movieDatabase.daoAccess().findAll();
+        adapter = new MyAdapterGaleria(todosFilmes);
+        listMovies.setAdapter(adapter);
+        
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         final View view = inflater.inflate(R.layout.fragment_galeria, container, false);
         movieDatabase = FilmeDatabase.getInstance(getActivity().getApplicationContext());
-
-
-        smilling = new String(Character.toChars(smillingUnicode));
-        getActivity().setTitle("Busque por um filme " + smilling);
-
-        movieDatabase = FilmeDatabase.getInstance(view.getContext());
-        //listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
-       // listMovies.setHasFixedSize(true);
-        listMovies = view.findViewById(R.id.list_movies);
-
-        filme = view.findViewById(R.id.edt_nome);
-        filme.setText("Batman");
-
-        movieDatabase = FilmeDatabase.getInstance(view.getContext());
-       // listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
-
-
-        filme.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            List<FilmeSelecionado> f = movieDatabase.daoAccess().findFilmeByName("%" + filme.getText().toString() + "%");
-                            System.out.println(f);
-                            if (f.size()>0) {
-                               // getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
-
-                                //adapter = new MyAdapterGaleria(f);
-                                for(int i=0; i<f.size();i++){
-                                    TextView a = getView().findViewById(R.id.list_movies);
-                                    a.setText("\n" + " " + f.get(i) + "\n"); //listMovies.setText("\n" + " " + f.get(i) + "\n");
-                                }
-
-                            } else {
-                               // getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
-                                //ArrayList<Filme> arrayNaoEncontrado = new ArrayList<Filme>();
-                               // arrayNaoEncontrado.add(new Filme(filme.getText().toString() + " Não encontrado", " ", "", " ", ""));
-                               // adapter = new MyAdapter(arrayNaoEncontrado);
-                                listMovies.setText("NAO FOI ENCONTRADO");
-                            }
-
-                        }
-                    }).start();
-
-                }
-
-                return true;
-            }
-        });
-
-
+        listMovies = (RecyclerView) view.findViewById(R.id.list_filmes_cadastrados);
+        listMovies.setHasFixedSize(true);
+        mLayoutManager = new GridLayoutManager(view.getContext(), 3);
+        listMovies.setLayoutManager(mLayoutManager);
+        listMovies.addOnItemTouchListener(
+                new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        TextView imdbId = v.findViewById(R.id.tv_imdbID);
+                        Intent intent = new Intent(view.getContext(), CadastrarFilmeActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("imdbid", imdbId.getText().toString());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                })
+        );
         return view;
     }
 }
