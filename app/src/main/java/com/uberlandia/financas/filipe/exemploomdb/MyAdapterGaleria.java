@@ -12,8 +12,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    public static ArrayList<Filme> mDataset;
+/**
+ * Created by Filipe on 23/08/2018.
+ */
+
+public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
+    public static List<FilmeSelecionado> mDataset;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -32,7 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
     }
 
-    public MyAdapter(ArrayList<Filme> myDataset) {
+    public MyAdapterGaleria(List<FilmeSelecionado> myDataset) {
         this.mDataset = myDataset;
     }
 
@@ -42,12 +46,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = (View) LayoutInflater.from(parent.getContext()).inflate
                 (R.layout.item_filme, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        MyAdapter.ViewHolder vh = new MyAdapter.ViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         holder.tvTitulo.setText(mDataset.get(position).getTitle());
         if (mDataset.get(position).getImdbID() != "") {
 
