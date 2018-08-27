@@ -28,6 +28,9 @@ public interface DaoAccess {
     @Query("SELECT * FROM FilmeSelecionado WHERE Title LIKE :titulo")
     List<FilmeSelecionado> findFilmeByName(String titulo);
 
+    @Query("DELETE FROM FilmeSelecionado WHERE imdbID = :imdbID")
+    void deleteByID(String imdbID);
+
     @Update
     void updateFilme(FilmeSelecionado movies);
 

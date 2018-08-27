@@ -8,93 +8,131 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="exitUntilCollapsed">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            >
 
             <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
                 android:id="@+id/img_filme"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center_horizontal"
-                app:layout_collapseMode="pin"
-                android:layout_margin="10dp"/>
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left"
+                android:layout_margin="8dp" />
 
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="center"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme" />
 
+                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
+                    android:id="@+id/metascore"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/img_filme"
+                    android:src="@drawable/metascore" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_gravity="center_vertical">
-            <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/metascore"
-                android:layout_toLeftOf="@+id/metascore_rating"
-                android:src="@drawable/metascore"/>
-            <TextView
-                android:id="@+id/metascore_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:layout_toLeftOf="@+id/imsbRating"
-                android:layout_alignBottom="@+id/metascore"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="8dp"
-                />
+                <TextView
+                    android:id="@+id/metascore_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/metascore"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/metascore"
+                    android:textSize="15dp" />
 
-            <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/imsbRating"
-                android:layout_marginLeft="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/imbd"/>
-            <TextView
-                android:id="@+id/imdb_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imsbRating"
-                android:layout_toRightOf="@+id/imsbRating"
-                android:layout_marginLeft="8dp"
-                android:textSize="15dp"
+                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
+                    android:id="@+id/imsbRating"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/metascore_rating"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/img_filme"
+                    android:src="@drawable/imbd" />
 
-                />
+                <TextView
+                    android:id="@+id/imdb_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imsbRating"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/imsbRating"
+                    android:textSize="15dp"
+
+                    />
+
+                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
+                    android:id="@+id/year"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imdb_rating"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/img_filme"
+                    android:src="@drawable/ic_year" />
+
+                <TextView
+                    android:id="@+id/tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/year"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/year"
+                    android:textSize="15dp" />
+
+                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
+                    android:id="@+id/duracao"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_year"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@id/img_filme"
+                    android:src="@drawable/duracao" />
+
+                <TextView
+                    android:id="@+id/tv_duracao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/duracao"
+                    android:layout_margin="10dp"
+                    android:layout_toRightOf="@+id/duracao"
+                    android:textSize="15dp" />
+
 
 
 
         </RelativeLayout>
-        <TextView
-            android:id="@+id/tv_info"
+
+        <ProgressBar
+            android:id="@+id/progress_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10dp"
-            android:layout_margin="10dp"
-            android:textAlignment="center"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/imsbRating"
-            android:layout_marginBottom="25dp"/>
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme" />
+
 
     </android.support.design.widget.AppBarLayout>
 
@@ -119,14 +157,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center" 
+                        android:layout_gravity="center"
                         android:text="Plot"
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -137,8 +176,9 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent"
+                        android:text="dsadasdsa"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp"
 
                         />
 
@@ -155,7 +195,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Director"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -166,8 +206,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider2"
@@ -182,7 +222,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Actors"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -193,8 +233,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider3"
@@ -209,7 +249,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Rated"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -220,8 +260,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider4"
@@ -237,7 +277,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Released"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -248,8 +288,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider5"
@@ -264,7 +304,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Writer"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -275,8 +315,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider6"
@@ -291,7 +331,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Language"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -302,8 +342,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider7"
@@ -318,7 +358,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="Country"
-                        
+                        android:textColor="@color/colorAccent"
                         android:textSize="25dp" />
 
                     <TextView
@@ -329,8 +369,8 @@
                         android:ellipsize="end"
                         android:maxLines="5"
                         android:paddingRight="@dimen/image_horizontal_margin"
-
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15dp" />
 
                     <View
                         android:id="@+id/Divider8"
@@ -348,6 +388,13 @@
 
     </ScrollView>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/AppTheme" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -356,6 +403,18 @@
         android:layout_margin="16dp"
         android:onClick="Salvar"
         android:src="@drawable/ic_save"
+        android:visibility="gone"
+        app:layout_anchor="@id/detail_app_bar"
+        app:layout_anchorGravity="bottom|right|end" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabRemove"
+        style="@style/FabStyle"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:onClick="Salvar"
+        android:src="@drawable/ic_remove"
+        android:visibility="gone"
         app:layout_anchor="@id/detail_app_bar"
         app:layout_anchorGravity="bottom|right|end" />
 

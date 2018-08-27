@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,7 @@ public class GaleriaFragment extends Fragment {
     private EditText filme;
     private FilmeDatabase movieDatabase;
     private List<FilmeSelecionado> todosFilmes;
+    private RelativeLayout view_empyt_list;
 
 
     @Override
@@ -73,9 +75,16 @@ public class GaleriaFragment extends Fragment {
     public void onResume() {
         super.onResume();
         todosFilmes = movieDatabase.daoAccess().findAll();
-        adapter = new MyAdapterGaleria(todosFilmes);
-        listMovies.setAdapter(adapter);
-        
+        if(todosFilmes.isEmpty()){
+            view_empyt_list.setVisibility(View.VISIBLE);
+            adapter = new MyAdapterGaleria(new ArrayList<FilmeSelecionado>());
+            listMovies.setAdapter(adapter);
+        }else{
+            view_empyt_list.setVisibility(View.GONE);
+            adapter = new MyAdapterGaleria(todosFilmes);
+            listMovies.setAdapter(adapter);
+        }
+
     }
 
     @Override
@@ -85,6 +94,7 @@ public class GaleriaFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_galeria, container, false);
         movieDatabase = FilmeDatabase.getInstance(getActivity().getApplicationContext());
         listMovies = (RecyclerView) view.findViewById(R.id.list_filmes_cadastrados);
+        view_empyt_list = view.findViewById(R.id.view_empyt_list);
         listMovies.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(view.getContext(), 3);
         listMovies.setLayoutManager(mLayoutManager);
@@ -92,10 +102,11 @@ public class GaleriaFragment extends Fragment {
                 new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        TextView imdbId = v.findViewById(R.id.tv_imdbID);
+                        TextView imdbId = v.findViewById(R.id.imdbID);
                         Intent intent = new Intent(view.getContext(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
+                        bundle.putString("fragment", "galeria");
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

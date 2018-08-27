@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class BuscaFragment extends Fragment {
     private int smillingUnicode = 0x1F60A;
     private String smilling;
     private EditText filme;
+    private RelativeLayout viewEmpytList;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -59,7 +61,7 @@ public class BuscaFragment extends Fragment {
 
         listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
         listMovies.setHasFixedSize(true);
-
+        viewEmpytList = view.findViewById(R.id.view_empyt_list);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         listMovies.setLayoutManager(mLayoutManager);
         listMovies.addOnItemTouchListener(
@@ -79,7 +81,7 @@ public class BuscaFragment extends Fragment {
                         Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
-                        //bundle.putByteArray("img", stream.toByteArray());
+                        bundle.putString("fragment", "busca");
                         intent.putExtras(bundle);
                         getActivity().startActivityForResult(intent,1);
 
@@ -99,6 +101,7 @@ public class BuscaFragment extends Fragment {
                     call.enqueue(new Callback<Result>() {
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
+                            viewEmpytList.setVisibility(View.GONE);
                             Result f = response.body();
                             System.out.println(f.Response + "" + f.getSearch());
                             if (f.getResponse()) {
@@ -107,10 +110,15 @@ public class BuscaFragment extends Fragment {
                                 listMovies.setAdapter(adapter);
                             } else {
                                 getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
+                                viewEmpytList.setVisibility(View.VISIBLE);
+                                adapter = new MyAdapter(new ArrayList<Filme>());
+                                listMovies.setAdapter(adapter);
+                                /*
+
                                 ArrayList<Filme> arrayNaoEncontrado = new ArrayList<Filme>();
                                 arrayNaoEncontrado.add(new Filme(filme.getText().toString() + " Não encontrado", " ", "", " ", ""));
                                 adapter = new MyAdapter(arrayNaoEncontrado);
-                                listMovies.setAdapter(adapter);
+                                listMovies.setAdapter(adapter);*/
                             }
                         }
 

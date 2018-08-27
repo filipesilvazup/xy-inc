@@ -1,5 +1,7 @@
 package com.uberlandia.financas.filipe.exemploomdb;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,11 +51,9 @@ public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapterGaleria.View
     @Override
     public void onBindViewHolder(MyAdapterGaleria.ViewHolder holder, int position) {
 
-        Picasso.get()
-                .load(mDataset.get(position).getPoster())
-                .resize(150, 230)
-                .centerCrop()
-                .into(holder.imagemFilme);
+        Bitmap bitmapImage = BitmapFactory.decodeByteArray(mDataset.get(position).getImagem(), 0, mDataset.get(position).getImagem().length);
+
+        holder.imagemFilme.setImageBitmap(bitmapImage);
 
         holder.tvImdbId.setText(mDataset.get(position).getImdbID());
     }

@@ -64,6 +64,15 @@ public class FilmeSelecionado {
     private String Production;
     private String Website;
     private String Response;
+    private byte[] imagem;
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] array) {
+        this.imagem = array;
+    }
 
     public String getPoster() {
         return Poster;
