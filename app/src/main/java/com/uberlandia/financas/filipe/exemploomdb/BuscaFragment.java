@@ -113,18 +113,13 @@ public class BuscaFragment extends Fragment {
                                 viewEmpytList.setVisibility(View.VISIBLE);
                                 adapter = new MyAdapter(new ArrayList<Filme>());
                                 listMovies.setAdapter(adapter);
-                                /*
-
-                                ArrayList<Filme> arrayNaoEncontrado = new ArrayList<Filme>();
-                                arrayNaoEncontrado.add(new Filme(filme.getText().toString() + " Não encontrado", " ", "", " ", ""));
-                                adapter = new MyAdapter(arrayNaoEncontrado);
-                                listMovies.setAdapter(adapter);*/
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Result> call, Throwable t) {
-                            Log.e("FilmeService   ", "Erro ao buscar o filme:" + t.getMessage());
+                            Snackbar.make(getView(), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
                         }
                     });
                 }

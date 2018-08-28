@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical|center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="230dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/layout_Img">
+
+            <ImageView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/img_filme"
+                android:src="@drawable/ic_wallpaper"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/imdb"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@+id/layout_Img"
+            android:src="@drawable/imbd"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/imdb_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imdb"
+            android:layout_alignBottom="@+id/imdb"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/metascore"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/layout_Img"
+            android:layout_below="@+id/imdb_rating"
+            android:src="@drawable/metascore"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/metascore_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/metascore"
+            android:layout_alignBottom="@+id/metascore"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/year"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/layout_Img"
+            android:layout_below="@+id/metascore_rating"
+            android:src="@drawable/ic_year"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/year_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/year"
+            android:layout_alignBottom="@+id/year"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/runtime"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@+id/layout_Img"
+            android:layout_below="@+id/year_text"
+            android:src="@drawable/duracao"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:id="@+id/runtime_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/runtime"
+            android:layout_alignBottom="@+id/runtime"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

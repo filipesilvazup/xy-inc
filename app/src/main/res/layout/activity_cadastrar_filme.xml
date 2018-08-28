@@ -8,113 +8,106 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="330dp"
         android:layout_marginTop="15dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            >
+            android:layout_height="300dp"
+            android:background="@color/colorPrimary"
+            android:layout_margin="16dp"
+            android:gravity="center_vertical|left">
 
-            <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                android:id="@+id/img_filme"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
+            <RelativeLayout
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:layout_marginRight="30dp"
                 android:layout_centerVertical="true"
-                android:layout_gravity="left"
-                android:layout_margin="8dp" />
+                android:id="@+id/layout_Img">
 
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:id="@+id/img_filme"
+                    android:src="@drawable/ic_wallpaper"/>
 
+            </RelativeLayout>
 
-                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                    android:id="@+id/metascore"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@+id/img_filme"
-                    android:src="@drawable/metascore" />
+            <ImageView
+                android:id="@+id/imdb"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="25dp"
+                android:layout_toRightOf="@+id/layout_Img"
+                android:src="@drawable/imbd"
+                android:layout_marginLeft="10dp" />
 
-                <TextView
-                    android:id="@+id/metascore_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/metascore"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@+id/metascore"
-                    android:textSize="15dp" />
+            <TextView
+                android:id="@+id/imdb_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/imdb"
+                android:layout_alignBottom="@+id/imdb"
+                android:textSize="15dp" />
 
-                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                    android:id="@+id/imsbRating"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/metascore_rating"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@+id/img_filme"
-                    android:src="@drawable/imbd" />
+            <ImageView
+                android:id="@+id/metascore"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@+id/layout_Img"
+                android:layout_below="@+id/imdb_rating"
+                android:src="@drawable/metascore"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                />
 
-                <TextView
-                    android:id="@+id/imdb_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imsbRating"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@+id/imsbRating"
-                    android:textSize="15dp"
+            <TextView
+                android:id="@+id/metascore_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/metascore"
+                android:layout_alignBottom="@+id/metascore"
+                android:textSize="15dp" />
 
-                    />
+            <ImageView
+                android:id="@+id/year"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@+id/layout_Img"
+                android:layout_below="@+id/metascore_rating"
+                android:src="@drawable/ic_year"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                />
 
-                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                    android:id="@+id/year"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imdb_rating"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@+id/img_filme"
-                    android:src="@drawable/ic_year" />
+            <TextView
+                android:id="@+id/year_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/year"
+                android:layout_alignBottom="@+id/year"
+                android:textSize="15dp" />
 
-                <TextView
-                    android:id="@+id/tv_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/year"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@+id/year"
-                    android:textSize="15dp" />
+            <ImageView
+                android:id="@+id/runtime"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@+id/layout_Img"
+                android:layout_below="@+id/year_text"
+                android:src="@drawable/duracao"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                />
 
-                <com.uberlandia.financas.filipe.exemploomdb.SquareImageView
-                    android:id="@+id/duracao"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_year"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_toRightOf="@id/img_filme"
-                    android:src="@drawable/duracao" />
-
-                <TextView
-                    android:id="@+id/tv_duracao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/duracao"
-                    android:layout_margin="10dp"
-                    android:layout_toRightOf="@+id/duracao"
-                    android:textSize="15dp" />
-
-
-
-
+            <TextView
+                android:id="@+id/runtime_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/runtime"
+                android:layout_alignBottom="@+id/runtime"
+                android:textSize="15dp" />
         </RelativeLayout>
 
         <ProgressBar
@@ -125,13 +118,6 @@
             android:indeterminate="true"
             android:visibility="gone" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:gravity="center"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/AppTheme" />
 
 
     </android.support.design.widget.AppBarLayout>
@@ -143,9 +129,7 @@
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -384,16 +368,14 @@
 
             </android.support.v7.widget.CardView>
 
-        </FrameLayout>
 
     </ScrollView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_collapseMode="pin"
         app:popupTheme="@style/AppTheme" />
 
     <android.support.design.widget.FloatingActionButton

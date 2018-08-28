@@ -25,7 +25,7 @@ public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapterGaleria.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public SquareImageView imagemFilme;
+        public ImageView imagemFilme;
         public TextView tvImdbId;
 
         public ViewHolder(View v) {
