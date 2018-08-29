@@ -62,7 +62,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("");
         setContentView(R.layout.activity_cadastrar_filme);
-       // layoutIMG = findViewById(R.id.layoutIMG);
+        // layoutIMG = findViewById(R.id.layoutIMG);
         jacadastrou = new String(Character.toChars(vergonhaUnicode));
         sucesso = new String(Character.toChars(felizUnicode));
         iv_poster = findViewById(R.id.img_filme);
@@ -92,8 +92,11 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         if (f != null) {
             fab.setVisibility(View.GONE);
             fabRemove.setVisibility(View.VISIBLE);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
-            iv_poster.setImageBitmap(bitmapImage);
+
+            if (!f.getPoster().equals("N/A")) {
+                Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
+                iv_poster.setImageBitmap(bitmapImage);
+            }
             Preencher();
 
         } else {
@@ -104,16 +107,15 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<FilmeSelecionado> call, Response<FilmeSelecionado> response) {
                     f = response.body();
-
-                    Picasso.get()
-                            .load(f.getPoster())
-                            .resize(200, 300)
-                            .centerCrop()
-                            .into(iv_poster);
-                //    Drawable seuDrawable = iv_poster.getDrawable();
-//                    layoutIMG.setBackground(seuDrawable);
+                    System.out.println(f.getPoster());
+                    if (!f.getPoster().equals("N/A")) {
+                        Picasso.get()
+                                .load(f.getPoster())
+                                .resize(200, 300)
+                                .centerCrop()
+                                .into(iv_poster);
+                    }
                     Preencher();
-
 
                 }
 
@@ -136,12 +138,12 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
-
-                                    Bitmap bitmap = ((BitmapDrawable) iv_poster.getDrawable()).getBitmap();
-                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                    f.setImagem(stream.toByteArray());
-
+                                    if (!f.getPoster().equals("N/A")) {
+                                        Bitmap bitmap = ((BitmapDrawable) iv_poster.getDrawable()).getBitmap();
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                        f.setImagem(stream.toByteArray());
+                                    }
                                     movieDatabase.daoAccess().insertFilme(f);
                                     Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
@@ -183,7 +185,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
     }
 
-    public void Preencher(){
+    public void Preencher() {
 
         setTitle(f.getTitle());
         tv_descricao.setText(f.getPlot());

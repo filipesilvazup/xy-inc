@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
+import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -36,13 +41,20 @@ public class BuscaFragment extends Fragment {
     public BuscaFragment() {}
 
     private RecyclerView listMovies;
-    private RecyclerView.Adapter adapter;
+   //private RecyclerView.Adapter adapter;
+    private MyAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public Context context;
+    private Result f;
+    ArrayList<Filme> listFilmes;
     private int smillingUnicode = 0x1F60A;
     private String smilling;
     private EditText filme;
     private RelativeLayout viewEmpytList;
+    private Toolbar toolbar;
+    protected Handler handler;
+    private int cont;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -55,15 +67,14 @@ public class BuscaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_busca, container, false);
-
         smilling = new String(Character.toChars(smillingUnicode));
         getActivity().setTitle("Busque por um filme " + smilling);
-
         listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
         listMovies.setHasFixedSize(true);
         viewEmpytList = view.findViewById(R.id.view_empyt_list);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         listMovies.setLayoutManager(mLayoutManager);
+        handler = new Handler();
         listMovies.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -72,12 +83,6 @@ public class BuscaFragment extends Fragment {
                         TextView imdbId = v.findViewById(R.id.tv_imdbID);
                         ImageView img = v.findViewById(R.id.img_filme);
 
-                        Bitmap bitmap = ((BitmapDrawable) img.getDrawable()).getBitmap();
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] array = stream.toByteArray();
-
-                        Intent it = new Intent();
                         Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
@@ -91,18 +96,67 @@ public class BuscaFragment extends Fragment {
 
         filme = view.findViewById(R.id.edt_nome);
         filme.setText("Batman");
+        adapter = new MyAdapter(new ArrayList<Filme>(), listMovies);
+        listFilmes = new ArrayList<Filme>();
+        FileUtils.deleteQuietly(getActivity().getBaseContext().getCacheDir());
+        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void onLoadMore() {
+
+                listFilmes.add(null);
+                adapter.notifyItemInserted(listFilmes.size() - 1);
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //   remove progress item
+                        listFilmes.remove(listFilmes.size() - 1);
+                        adapter.notifyItemRemoved(listFilmes.size());
+                        //add items one by one
+                        cont++;
+                        System.out.println("CONTTTT " + cont);
+                        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", ""+cont);
+                        call.enqueue(new Callback<Result>() {
+                            @Override
+                            public void onResponse(Call<Result> call, Response<Result> response) {
+                                viewEmpytList.setVisibility(View.GONE);
+                                f = response.body();
+
+                                if (f.getResponse()) {
+                                    getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
+                                    adapter.atualizaLista(f.getSearch());
+                                    adapter.setLoaded();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Result> call, Throwable t) {
+                                Snackbar.make(getView(), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                            }
+                        });
+
+                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+                    }
+                }, 2000);
+
+            }
+        });
+
+
 
         filme.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-
-                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7");
+                    cont = 1;
+                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", ""+cont);
                     call.enqueue(new Callback<Result>() {
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
                             viewEmpytList.setVisibility(View.GONE);
-                            Result f = response.body();
+                            f = response.body();
                             System.out.println(f.Response + "" + f.getSearch());
                             if (f.getResponse()) {
                                 getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));

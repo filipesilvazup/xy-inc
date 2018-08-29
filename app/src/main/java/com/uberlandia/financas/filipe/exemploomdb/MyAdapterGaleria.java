@@ -2,6 +2,7 @@ package com.uberlandia.financas.filipe.exemploomdb;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,8 @@ public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapterGaleria.View
     }
 
 
+
+
     @Override
     public MyAdapterGaleria.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = (View) LayoutInflater.from(parent.getContext()).inflate
@@ -51,9 +55,11 @@ public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapterGaleria.View
     @Override
     public void onBindViewHolder(MyAdapterGaleria.ViewHolder holder, int position) {
 
-        Bitmap bitmapImage = BitmapFactory.decodeByteArray(mDataset.get(position).getImagem(), 0, mDataset.get(position).getImagem().length);
+        if (!mDataset.get(position).getPoster().equals("N/A")) {
+            Bitmap bitmapImage = BitmapFactory.decodeByteArray(mDataset.get(position).getImagem(), 0, mDataset.get(position).getImagem().length);
+            holder.imagemFilme.setImageBitmap(bitmapImage);
+        }
 
-        holder.imagemFilme.setImageBitmap(bitmapImage);
 
         holder.tvImdbId.setText(mDataset.get(position).getImdbID());
     }

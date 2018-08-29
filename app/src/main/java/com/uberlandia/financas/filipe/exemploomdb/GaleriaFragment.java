@@ -50,9 +50,6 @@ public class GaleriaFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public Context context;
-    private int smillingUnicode = 0x1F60A;
-    private String smilling;
-    private EditText filme;
     private FilmeDatabase movieDatabase;
     private List<FilmeSelecionado> todosFilmes;
     private RelativeLayout view_empyt_list;
@@ -95,9 +92,11 @@ public class GaleriaFragment extends Fragment {
         movieDatabase = FilmeDatabase.getInstance(getActivity().getApplicationContext());
         listMovies = (RecyclerView) view.findViewById(R.id.list_filmes_cadastrados);
         view_empyt_list = view.findViewById(R.id.view_empyt_list);
+
         listMovies.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(view.getContext(), 3);
         listMovies.setLayoutManager(mLayoutManager);
+
         listMovies.addOnItemTouchListener(
                 new RecyclerItemClickListener(view.getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
