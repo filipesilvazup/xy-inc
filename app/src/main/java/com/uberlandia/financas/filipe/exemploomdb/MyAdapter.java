@@ -25,12 +25,15 @@ public class MyAdapter extends RecyclerView.Adapter {
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
 
+
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTitulo;
         public ImageView imagemFilme;
         public TextView tvImdbId;
         public TextView tvYear;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -155,9 +158,10 @@ public class MyAdapter extends RecyclerView.Adapter {
     public static class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
-        public ProgressViewHolder(ViewHolder v) {
-            super(v.itemView);
-            progressBar = (ProgressBar) v.itemView.findViewById(R.id.progressBar1);
+        public ProgressViewHolder(View v) {
+            super(v);
+
+            progressBar = (ProgressBar) v.findViewById(R.id.progressBar1);
         }
     }
 

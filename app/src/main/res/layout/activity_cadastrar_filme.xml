@@ -8,14 +8,14 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="377dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar12"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_height="30dp"
             app:navigationIcon="?attr/homeAsUpIndicator" />
 
         <RelativeLayout
@@ -30,6 +30,7 @@
                 android:layout_height="300dp"
                 android:layout_marginRight="30dp"
                 android:layout_centerVertical="true"
+                android:layout_marginBottom="20dp"
                 android:id="@+id/layout_Img">
 
                 <ImageView

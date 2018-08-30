@@ -99,6 +99,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                 finish();
             }
         });
+        System.out.println("TESSSTE" + f);
 
 
         if (f != null) {
@@ -112,6 +113,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
             Preencher();
 
         } else {
+
             fab.setVisibility(View.VISIBLE);
             fabRemove.setVisibility(View.GONE);
             call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
@@ -119,11 +121,11 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<FilmeSelecionado> call, Response<FilmeSelecionado> response) {
                     f = response.body();
-                    System.out.println(f.getPoster());
+                    System.out.println(f.toString());
                     if (!f.getPoster().equals("N/A")) {
                         Picasso.get()
                                 .load(f.getPoster())
-                                .resize(200, 300)
+                                .resize(100, 200)
                                 .centerCrop()
                                 .into(iv_poster);
                     }

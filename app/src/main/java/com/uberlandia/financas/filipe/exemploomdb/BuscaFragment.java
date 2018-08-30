@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ public class BuscaFragment extends Fragment {
     private RelativeLayout viewEmpytList;
     protected Handler handler;
     private int cont;
-
+    private RelativeLayout progress_spinner;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -73,17 +74,13 @@ public class BuscaFragment extends Fragment {
         viewEmpytList = view.findViewById(R.id.view_empyt_list);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         listMovies.setLayoutManager(mLayoutManager);
-
-
+        progress_spinner = view.findViewById(R.id.viewProgress);
         handler = new Handler();
         listMovies.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        TextView titulo = v.findViewById(R.id.tv_titulo);
                         TextView imdbId = v.findViewById(R.id.tv_imdbID);
-                        ImageView img = v.findViewById(R.id.img_filme);
-
                         Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
@@ -105,17 +102,16 @@ public class BuscaFragment extends Fragment {
 
             @Override
             public void onLoadMore() {
-
                 listFilmes.add(null);
-                adapter.notifyItemInserted(listFilmes.size() - 1);
+                adapter.notifyItemChanged(listFilmes.size()-1);
+                progress_spinner.setVisibility(View.VISIBLE);
 
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        listFilmes.remove(listFilmes.size() - 1);
-                        adapter.notifyItemRemoved(listFilmes.size());
+                        //listFilmes.remove(listFilmes.size() - 1);
+                       // adapter.notifyItemRemoved(listFilmes.size());
                         cont++;
-                        System.out.println("CONTTTT " + cont);
                         Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", ""+cont);
                         call.enqueue(new Callback<Result>() {
                             @Override
@@ -125,6 +121,7 @@ public class BuscaFragment extends Fragment {
 
                                 if (f.getResponse()) {
                                     getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
+                                    progress_spinner.setVisibility(View.GONE);
                                     adapter.atualizaLista(f.getSearch());
                                     adapter.setLoaded();
                                 }
@@ -137,7 +134,6 @@ public class BuscaFragment extends Fragment {
                             }
                         });
 
-                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
                     }
                 }, 2000);
 
@@ -158,7 +154,6 @@ public class BuscaFragment extends Fragment {
                         public void onResponse(Call<Result> call, Response<Result> response) {
                             viewEmpytList.setVisibility(View.GONE);
                             f = response.body();
-                            System.out.println(f.Response + "" + f.getSearch());
                             if (f.getResponse()) {
                                 getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
                                 adapter.atualizaLista(f.getSearch());
