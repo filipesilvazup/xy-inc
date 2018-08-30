@@ -83,8 +83,6 @@ public class MyAdapter extends RecyclerView.Adapter {
     }
 
 
-
-
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -103,11 +101,15 @@ public class MyAdapter extends RecyclerView.Adapter {
 
     }
 
-    public void atualizaLista(ArrayList<Filme> filmes){
+    public void atualizaLista(ArrayList<Filme> filmes) {
 
-        for(int i=0;i<filmes.size();i++)
-        this.mDataset.add(filmes.get(i));
 
+        if (filmes == null) {
+            this.mDataset.clear();
+        } else {
+            for (int i = 0; i < filmes.size(); i++)
+                this.mDataset.add(filmes.get(i));
+        }
 
 
         notifyDataSetChanged();
@@ -118,17 +120,17 @@ public class MyAdapter extends RecyclerView.Adapter {
 
         if (holder instanceof MyAdapter.ViewHolder) {
 
-            ((MyAdapter.ViewHolder)holder).tvTitulo.setText(mDataset.get(position).getTitle());
+            ((MyAdapter.ViewHolder) holder).tvTitulo.setText(mDataset.get(position).getTitle());
             if (mDataset.get(position).getImdbID() != "" && !mDataset.get(position).getPoster().equals("N/A")) {
                 Picasso.get()
                         .load(mDataset.get(position).getPoster())
                         .resize(200, 210)
                         .centerCrop()
-                        .into( ((MyAdapter.ViewHolder)holder).imagemFilme);
+                        .into(((MyAdapter.ViewHolder) holder).imagemFilme);
             }
-            ((MyAdapter.ViewHolder)holder).tvImdbId.setText(mDataset.get(position).getImdbID());
-            ((MyAdapter.ViewHolder)holder).tvYear.setText(mDataset.get(position).getYear());
-        }else{
+            ((MyAdapter.ViewHolder) holder).tvImdbId.setText(mDataset.get(position).getImdbID());
+            ((MyAdapter.ViewHolder) holder).tvYear.setText(mDataset.get(position).getYear());
+        } else {
 
             ((MyAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
 

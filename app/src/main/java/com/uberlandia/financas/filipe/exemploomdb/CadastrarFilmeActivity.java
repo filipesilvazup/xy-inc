@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -56,6 +57,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     int felizUnicode = 0x1F609;
     String jacadastrou;
     String sucesso;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,16 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
 
         f = movieDatabase.daoAccess().findFilmeById(imdbId);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar12);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         if (f != null) {
             fab.setVisibility(View.GONE);
@@ -187,7 +199,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
     public void Preencher() {
 
-        setTitle(f.getTitle());
+        toolbar.setTitle(f.getTitle());
         tv_descricao.setText(f.getPlot());
         tv_director.setText(f.getDirector());
         tv_actors.setText(f.getActors());

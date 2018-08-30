@@ -41,7 +41,6 @@ public class BuscaFragment extends Fragment {
     public BuscaFragment() {}
 
     private RecyclerView listMovies;
-   //private RecyclerView.Adapter adapter;
     private MyAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     public Context context;
@@ -51,9 +50,9 @@ public class BuscaFragment extends Fragment {
     private String smilling;
     private EditText filme;
     private RelativeLayout viewEmpytList;
-    private Toolbar toolbar;
     protected Handler handler;
     private int cont;
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -74,6 +73,8 @@ public class BuscaFragment extends Fragment {
         viewEmpytList = view.findViewById(R.id.view_empyt_list);
         mLayoutManager = new LinearLayoutManager(view.getContext());
         listMovies.setLayoutManager(mLayoutManager);
+
+
         handler = new Handler();
         listMovies.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -96,9 +97,10 @@ public class BuscaFragment extends Fragment {
 
         filme = view.findViewById(R.id.edt_nome);
         filme.setText("Batman");
-        adapter = new MyAdapter(new ArrayList<Filme>(), listMovies);
+
         listFilmes = new ArrayList<Filme>();
-        FileUtils.deleteQuietly(getActivity().getBaseContext().getCacheDir());
+        adapter = new MyAdapter(new ArrayList<Filme>(), listMovies);
+
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
 
             @Override
@@ -110,10 +112,8 @@ public class BuscaFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //   remove progress item
                         listFilmes.remove(listFilmes.size() - 1);
                         adapter.notifyItemRemoved(listFilmes.size());
-                        //add items one by one
                         cont++;
                         System.out.println("CONTTTT " + cont);
                         Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", ""+cont);
@@ -151,6 +151,7 @@ public class BuscaFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     cont = 1;
+                    adapter.atualizaLista(null);
                     Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", ""+cont);
                     call.enqueue(new Callback<Result>() {
                         @Override
@@ -160,7 +161,7 @@ public class BuscaFragment extends Fragment {
                             System.out.println(f.Response + "" + f.getSearch());
                             if (f.getResponse()) {
                                 getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
-                                adapter = new MyAdapter(f.getSearch());
+                                adapter.atualizaLista(f.getSearch());
                                 listMovies.setAdapter(adapter);
                             } else {
                                 getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
