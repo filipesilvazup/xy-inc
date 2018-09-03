@@ -24,12 +24,13 @@
 
             <ImageView
                 android:id="@+id/img_filme"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:paddingBottom="@dimen/image_horizontal_margin"
                 android:paddingLeft="@dimen/image_horizontal_margin"
                 android:paddingRight="@dimen/image_horizontal_margin"
                 android:paddingTop="@dimen/image_vertical_margin"
+                android:src="@drawable/ic_wallpaper"
                 />
         </LinearLayout>
 

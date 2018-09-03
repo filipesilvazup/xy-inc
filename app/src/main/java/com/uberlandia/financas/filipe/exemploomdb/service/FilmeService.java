@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface FilmeService {
     @GET("?plot=full")
-    Call<Result> buscarFilmes(@Query("s") String filme, @Query("apikey") String apikey);
+    Call<Result> buscarFilmes(@Query("s") String filme, @Query("apikey") String apikey, @Query("page") String cont);
 
     @GET("?plot=full")
     Call<FilmeSelecionado> buscarFilme(@Query("i") String imdbId, @Query("apikey") String apikey);

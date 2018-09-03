@@ -1,19 +1,30 @@
 package com.uberlandia.financas.filipe.exemploomdb;
 
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter {
     public static ArrayList<Filme> mDataset;
+    private OnLoadMoreListener onLoadMoreListener;
+    private final int VIEW_ITEM = 1;
+    private final int VIEW_PROG = 0;
+    private int visibleThreshold = 5;
+    private int lastVisibleItem, totalItemCount;
+    private boolean loading;
+
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -22,6 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public ImageView imagemFilme;
         public TextView tvImdbId;
         public TextView tvYear;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -37,33 +49,105 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
 
+    public MyAdapter(ArrayList<Filme> filmes, RecyclerView recyclerView) {
+        this.mDataset = filmes;
 
-    @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate
-                (R.layout.item_filme, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView
+                    .getLayoutManager();
+            recyclerView
+                    .addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrolled(RecyclerView recyclerView,
+                                               int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+
+                            totalItemCount = linearLayoutManager.getItemCount();
+                            lastVisibleItem = linearLayoutManager
+                                    .findLastVisibleItemPosition();
+                            if (!loading
+                                    && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                                // End has been reached
+                                // Do something
+                                if (onLoadMoreListener != null) {
+                                    onLoadMoreListener.onLoadMore();
+                                }
+                                loading = true;
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvTitulo.setText(mDataset.get(position).getTitle());
-        if (mDataset.get(position).getImdbID() != "") {
+    public int getItemViewType(int position) {
+        return mDataset.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+    }
 
 
-            Picasso.get()
-                    .load(mDataset.get(position).getPoster())
-                    .resize(150, 150)
-                    .centerCrop()
-                    .into(holder.imagemFilme);
+    @Override
+    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        ViewHolder vh=null;
+        if (viewType == VIEW_ITEM) {
+            View v = (View) LayoutInflater.from(parent.getContext()).inflate
+                    (R.layout.item_filme, parent, false);
+            vh = new MyAdapter.ViewHolder(v);
         }
-        holder.tvImdbId.setText(mDataset.get(position).getImdbID());
-        holder.tvYear.setText(mDataset.get(position).getYear());
+        return vh;
+
+
+    }
+
+    public void atualizaLista(ArrayList<Filme> filmes) {
+
+
+        if (filmes == null) {
+            this.mDataset.clear();
+        } else {
+            for (int i = 0; i < filmes.size(); i++)
+                this.mDataset.add(filmes.get(i));
+        }
+
+
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        if (holder instanceof MyAdapter.ViewHolder) {
+
+            ((MyAdapter.ViewHolder) holder).tvTitulo.setText(mDataset.get(position).getTitle());
+            if (mDataset.get(position).getImdbID() != "" && !mDataset.get(position).getPoster().equals("N/A")) {
+                Picasso.get()
+                        .load(mDataset.get(position).getPoster())
+                        .resize(280, 350)
+                        .centerCrop()
+                        .into(((MyAdapter.ViewHolder) holder).imagemFilme);
+            }
+            ((MyAdapter.ViewHolder) holder).tvImdbId.setText(mDataset.get(position).getImdbID());
+            ((MyAdapter.ViewHolder) holder).tvYear.setText(mDataset.get(position).getYear());
+        }
+    }
+
+
+    public void setLoaded() {
+        loading = false;
     }
 
     @Override
     public int getItemCount() {
         return mDataset.size();
     }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+
+
 }
+
+

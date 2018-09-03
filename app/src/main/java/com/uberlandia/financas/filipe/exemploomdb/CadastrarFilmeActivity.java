@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -56,13 +57,14 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     int felizUnicode = 0x1F609;
     String jacadastrou;
     String sucesso;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("");
         setContentView(R.layout.activity_cadastrar_filme);
-       // layoutIMG = findViewById(R.id.layoutIMG);
+        // layoutIMG = findViewById(R.id.layoutIMG);
         jacadastrou = new String(Character.toChars(vergonhaUnicode));
         sucesso = new String(Character.toChars(felizUnicode));
         iv_poster = findViewById(R.id.img_filme);
@@ -89,14 +91,29 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
         f = movieDatabase.daoAccess().findFilmeById(imdbId);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar12);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        System.out.println("TESSSTE" + f);
+
+
         if (f != null) {
             fab.setVisibility(View.GONE);
             fabRemove.setVisibility(View.VISIBLE);
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
-            iv_poster.setImageBitmap(bitmapImage);
+
+            if (!f.getPoster().equals("N/A")) {
+                Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
+                iv_poster.setImageBitmap(bitmapImage);
+            }
             Preencher();
 
         } else {
+
             fab.setVisibility(View.VISIBLE);
             fabRemove.setVisibility(View.GONE);
             call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
@@ -104,16 +121,15 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<FilmeSelecionado> call, Response<FilmeSelecionado> response) {
                     f = response.body();
-
-                    Picasso.get()
-                            .load(f.getPoster())
-                            .resize(200, 300)
-                            .centerCrop()
-                            .into(iv_poster);
-                //    Drawable seuDrawable = iv_poster.getDrawable();
-//                    layoutIMG.setBackground(seuDrawable);
+                    System.out.println(f.toString());
+                    if (!f.getPoster().equals("N/A")) {
+                        Picasso.get()
+                                .load(f.getPoster())
+                                .resize(280, 390)
+                                .centerCrop()
+                                .into(iv_poster);
+                    }
                     Preencher();
-
 
                 }
 
@@ -136,12 +152,12 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
 
                                 if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
-
-                                    Bitmap bitmap = ((BitmapDrawable) iv_poster.getDrawable()).getBitmap();
-                                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                    f.setImagem(stream.toByteArray());
-
+                                    if (!f.getPoster().equals("N/A")) {
+                                        Bitmap bitmap = ((BitmapDrawable) iv_poster.getDrawable()).getBitmap();
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                        f.setImagem(stream.toByteArray());
+                                    }
                                     movieDatabase.daoAccess().insertFilme(f);
                                     Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
                                             .setAction("Action", null).show();
@@ -183,9 +199,9 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
     }
 
-    public void Preencher(){
+    public void Preencher() {
 
-        setTitle(f.getTitle());
+        toolbar.setTitle(f.getTitle());
         tv_descricao.setText(f.getPlot());
         tv_director.setText(f.getDirector());
         tv_actors.setText(f.getActors());
