@@ -127,7 +127,7 @@ public class MyAdapter extends RecyclerView.Adapter {
             if (mDataset.get(position).getImdbID() != "" && !mDataset.get(position).getPoster().equals("N/A")) {
                 Picasso.get()
                         .load(mDataset.get(position).getPoster())
-                        .resize(200, 210)
+                        .resize(280, 350)
                         .centerCrop()
                         .into(((MyAdapter.ViewHolder) holder).imagemFilme);
             }

@@ -125,7 +125,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                     if (!f.getPoster().equals("N/A")) {
                         Picasso.get()
                                 .load(f.getPoster())
-                                .resize(100, 200)
+                                .resize(280, 390)
                                 .centerCrop()
                                 .into(iv_poster);
                     }
