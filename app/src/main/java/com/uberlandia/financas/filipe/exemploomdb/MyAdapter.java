@@ -89,14 +89,10 @@ public class MyAdapter extends RecyclerView.Adapter {
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        ViewHolder vh;
+        ViewHolder vh=null;
         if (viewType == VIEW_ITEM) {
             View v = (View) LayoutInflater.from(parent.getContext()).inflate
                     (R.layout.item_filme, parent, false);
-            vh = new MyAdapter.ViewHolder(v);
-        } else {
-            View v = (View) LayoutInflater.from(parent.getContext()).inflate
-                    (R.layout.progressbar, parent, false);
             vh = new MyAdapter.ViewHolder(v);
         }
         return vh;
@@ -133,10 +129,6 @@ public class MyAdapter extends RecyclerView.Adapter {
             }
             ((MyAdapter.ViewHolder) holder).tvImdbId.setText(mDataset.get(position).getImdbID());
             ((MyAdapter.ViewHolder) holder).tvYear.setText(mDataset.get(position).getYear());
-        } else {
-
-            ((MyAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
-
         }
     }
 
@@ -155,15 +147,6 @@ public class MyAdapter extends RecyclerView.Adapter {
     }
 
 
-    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBar progressBar;
-
-        public ProgressViewHolder(View v) {
-            super(v);
-
-            progressBar = (ProgressBar) v.findViewById(R.id.progressBar1);
-        }
-    }
 
 }
 
