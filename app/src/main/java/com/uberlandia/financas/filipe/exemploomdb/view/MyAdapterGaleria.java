@@ -1,8 +1,7 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.view;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

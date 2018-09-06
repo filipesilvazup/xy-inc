@@ -1,4 +1,4 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.service;
 
 import com.google.gson.Gson;
 import com.uberlandia.financas.filipe.exemploomdb.service.FilmeService;

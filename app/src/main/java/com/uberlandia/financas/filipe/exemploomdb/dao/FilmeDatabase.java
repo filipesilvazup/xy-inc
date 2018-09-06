@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.uberlandia.financas.filipe.exemploomdb.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 
 @Database(entities = {FilmeSelecionado.class}, version = 1, exportSchema = false)
 public abstract class FilmeDatabase extends RoomDatabase {

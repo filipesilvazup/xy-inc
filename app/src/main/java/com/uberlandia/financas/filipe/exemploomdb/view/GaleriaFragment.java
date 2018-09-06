@@ -1,41 +1,25 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListener;
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 
-import org.w3c.dom.Text;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Filipe on 23/08/2018.

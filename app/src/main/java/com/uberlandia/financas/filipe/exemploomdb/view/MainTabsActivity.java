@@ -1,4 +1,4 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.view.BuscaFragment;
+import com.uberlandia.financas.filipe.exemploomdb.view.GaleriaFragment;
 
 import java.util.ArrayList;
 import java.util.List;

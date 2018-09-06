@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.uberlandia.financas.filipe.exemploomdb.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 
 import java.util.ArrayList;
 import java.util.List;

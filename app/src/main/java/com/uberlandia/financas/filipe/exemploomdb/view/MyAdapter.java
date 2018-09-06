@@ -1,4 +1,4 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.view;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter {
     public static ArrayList<Filme> mDataset;

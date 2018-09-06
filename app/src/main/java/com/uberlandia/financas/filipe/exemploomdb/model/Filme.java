@@ -1,4 +1,4 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.model;
 
 /**
  * Created by Filipe on 20/08/2018.

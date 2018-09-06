@@ -1,4 +1,4 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.service;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

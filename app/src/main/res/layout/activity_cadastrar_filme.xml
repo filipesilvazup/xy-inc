@@ -1,401 +1,409 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/detail_coordinator"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/detail_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="377dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar12"
-            android:layout_width="match_parent"
-            android:layout_marginTop="22dp"
-            android:layout_height="30dp"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+    <data>
+        <variable
+            name="cadastrarViewModel"
+            type="com.uberlandia.financas.filipe.exemploomdb.viewmodel.CadastrarViewModel" />
+    </data>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/colorPrimary"
-            android:layout_margin="16dp"
-            android:gravity="center_vertical|left">
-
-            <RelativeLayout
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="20dp"
-                android:id="@+id/layout_Img">
-
-                <ImageView
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:id="@+id/img_filme"
-                    android:src="@drawable/ic_wallpaper"/>
-
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/imdb"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="25dp"
-                android:layout_toRightOf="@+id/layout_Img"
-                android:src="@drawable/imbd"
-                android:layout_marginLeft="10dp" />
-
-            <TextView
-                android:id="@+id/imdb_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/imdb"
-                android:layout_alignBottom="@+id/imdb"
-                android:textSize="15dp" />
-
-            <ImageView
-                android:id="@+id/metascore"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_toRightOf="@+id/layout_Img"
-                android:layout_below="@+id/imdb_rating"
-                android:src="@drawable/metascore"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                />
-
-            <TextView
-                android:id="@+id/metascore_rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/metascore"
-                android:layout_alignBottom="@+id/metascore"
-                android:textSize="15dp" />
-
-            <ImageView
-                android:id="@+id/year"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_toRightOf="@+id/layout_Img"
-                android:layout_below="@+id/metascore_rating"
-                android:src="@drawable/ic_year"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                />
-
-            <TextView
-                android:id="@+id/year_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/year"
-                android:layout_alignBottom="@+id/year"
-                android:textSize="15dp" />
-
-            <ImageView
-                android:id="@+id/runtime"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_toRightOf="@+id/layout_Img"
-                android:layout_below="@+id/year_text"
-                android:src="@drawable/duracao"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                />
-
-            <TextView
-                android:id="@+id/runtime_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/runtime"
-                android:layout_alignBottom="@+id/runtime"
-                android:textSize="15dp" />
-        </RelativeLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-
-
-    </android.support.design.widget.AppBarLayout>
-
-    <ScrollView
-        android:id="@+id/scroll"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/detail_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:layout_marginTop="365dp">
+        android:fitsSystemWindows="true">
 
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/detail_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="377dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar12"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="22dp"
+                app:navigationIcon="?attr/homeAsUpIndicator" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="16dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center_vertical|left">
+
+                <RelativeLayout
+                    android:id="@+id/layout_Img"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="10dp">
+
+                    <ImageView
+                        android:id="@+id/img_filme"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_wallpaper" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/imdb"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/layout_Img"
+                    android:src="@drawable/imbd" />
+
+                <TextView
+                    android:id="@+id/imdb_rating"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:orientation="vertical">
+                    android:layout_alignBottom="@+id/imdb"
+                    android:layout_toRightOf="@+id/imdb"
+                    android:textSize="15dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Plot"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
+                <ImageView
+                    android:id="@+id/metascore"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/imdb_rating"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/layout_Img"
+                    android:src="@drawable/metascore" />
 
-                    <TextView
-                        android:id="@+id/tv_descricao"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:text="dsadasdsa"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp"
+                <TextView
+                    android:id="@+id/metascore_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/metascore"
+                    android:layout_toRightOf="@+id/metascore"
+                    android:textSize="15dp" />
 
-                        />
+                <ImageView
+                    android:id="@+id/year"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/metascore_rating"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/layout_Img"
+                    android:src="@drawable/ic_year" />
 
-                    <View
-                        android:id="@+id/Divider1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
+                <TextView
+                    android:id="@+id/year_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/year"
+                    android:layout_toRightOf="@+id/year"
+                    android:textSize="15dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Director"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
+                <ImageView
+                    android:id="@+id/runtime"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/year_text"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/layout_Img"
+                    android:src="@drawable/duracao" />
 
-                    <TextView
-                        android:id="@+id/tv_director"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/runtime_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/runtime"
+                    android:layout_toRightOf="@+id/runtime"
+                    android:textSize="15dp" />
+            </RelativeLayout>
 
-                    <View
-                        android:id="@+id/Divider2"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Actors"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_actors"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:id="@+id/Divider3"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Rated"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_rated"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:id="@+id/Divider4"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
+            <ProgressBar
+                android:id="@+id/progress_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone" />
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Released"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
+        </android.support.design.widget.AppBarLayout>
 
-                    <TextView
-                        android:id="@+id/tv_released"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:id="@+id/Divider5"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Writer"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_writer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:id="@+id/Divider6"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Language"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_language"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:id="@+id/Divider7"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Country"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:ellipsize="end"
-                        android:maxLines="5"
-                        android:paddingRight="@dimen/image_horizontal_margin"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:id="@+id/Divider8"
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/colorline" />
-
-                </LinearLayout>
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="365dp"
+            android:clipToPadding="false">
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Plot"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/tv_descricao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="dsadasdsa"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp"
+
+                    />
+
+                <View
+                    android:id="@+id/Divider1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Director"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/tv_director"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/Divider2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Actors"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/tv_actors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/Divider3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Rated"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/tv_rated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/Divider4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
 
 
-    </ScrollView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Released"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:popupTheme="@style/AppTheme" />
+                <TextView
+                    android:id="@+id/tv_released"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FabStyle"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:onClick="Salvar"
-        android:src="@drawable/ic_save"
-        android:visibility="gone"
-        app:layout_anchor="@id/detail_app_bar"
-        app:layout_anchorGravity="bottom|right|end" />
+                <View
+                    android:id="@+id/Divider5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabRemove"
-        style="@style/FabStyle"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:onClick="Salvar"
-        android:src="@drawable/ic_remove"
-        android:visibility="gone"
-        app:layout_anchor="@id/detail_app_bar"
-        app:layout_anchorGravity="bottom|right|end" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Writer"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
 
-</android.support.design.widget.CoordinatorLayout>
+                <TextView
+                    android:id="@+id/tv_writer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/Divider6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Language"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/tv_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/Divider7"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Country"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/tv_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:paddingRight="@dimen/image_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15dp" />
+
+                <View
+                    android:id="@+id/Divider8"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorline" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:popupTheme="@style/AppTheme" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/FabStyle"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:onClick="Salvar"
+            android:src="@drawable/ic_save"
+            android:visibility="gone"
+            app:layout_anchor="@id/detail_app_bar"
+            app:layout_anchorGravity="bottom|right|end" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabRemove"
+            style="@style/FabStyle"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:onClick="Salvar"
+            android:src="@drawable/ic_remove"
+            android:visibility="gone"
+            app:layout_anchor="@id/detail_app_bar"
+            app:layout_anchorGravity="bottom|right|end" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</layout>

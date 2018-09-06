@@ -1,8 +1,7 @@
 package com.uberlandia.financas.filipe.exemploomdb.service;
 
-import com.uberlandia.financas.filipe.exemploomdb.Filme;
-import com.uberlandia.financas.filipe.exemploomdb.FilmeSelecionado;
-import com.uberlandia.financas.filipe.exemploomdb.Result;
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.model.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,11 +1,11 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.model;
 
 import android.view.View;
 
+import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerViewClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Filipe on 21/08/2018.

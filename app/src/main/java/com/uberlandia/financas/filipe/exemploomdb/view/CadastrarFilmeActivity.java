@@ -1,30 +1,31 @@
-package com.uberlandia.financas.filipe.exemploomdb;
+package com.uberlandia.financas.filipe.exemploomdb.view;
 
-import android.app.ProgressDialog;
-import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.uberlandia.financas.filipe.exemploomdb.databinding.ActivityCadastrarFilmeBinding;
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.service.RetrofitConfig;
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
+import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
+import com.uberlandia.financas.filipe.exemploomdb.viewmodel.CadastrarViewModel;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +37,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     private FilmeSelecionado f;
     private byte[] array;
     private String imdbId;
-    private ImageView iv_poster;
+    /*private ImageView iv_poster;
     private TextView tv_info;
     private TextView tv_descricao;
     private TextView tv_director;
@@ -49,7 +50,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     private TextView imdb_rating;
     private TextView metascore;
     private TextView tv_duracao;
-    private TextView tv_year;
+    private TextView tv_year;*/
     private FloatingActionButton fab;
     private FloatingActionButton fabRemove;
     private Call<FilmeSelecionado> call;
@@ -59,11 +60,20 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     String sucesso;
     private Toolbar toolbar;
 
+    ActivityCadastrarFilmeBinding binding;
+    CadastrarViewModel cadastrarViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("");
-        setContentView(R.layout.activity_cadastrar_filme);
+
+        cadastrarViewModel = new CadastrarViewModel();
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_cadastrar_filme);
+        binding.setCadastrarViewModel(cadastrarViewModel);
+        binding.executePendingBindings();
+
         // layoutIMG = findViewById(R.id.layoutIMG);
         jacadastrou = new String(Character.toChars(vergonhaUnicode));
         sucesso = new String(Character.toChars(felizUnicode));
@@ -108,9 +118,9 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
             if (!f.getPoster().equals("N/A")) {
                 Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
-                iv_poster.setImageBitmap(bitmapImage);
+                binding.imgFilme.setImageBitmap(bitmapImage);
             }
-            Preencher();
+            preencherView();
 
         } else {
 
@@ -123,14 +133,9 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                     f = response.body();
                     System.out.println(f.toString());
                     if (!f.getPoster().equals("N/A")) {
-                        Picasso.get()
-                                .load(f.getPoster())
-                                .resize(280, 390)
-                                .centerCrop()
-                                .into(iv_poster);
+                        Utils.setImagePicasso(f.getPoster(), binding.imgFilme);
                     }
-                    Preencher();
-
+                    preencherView();
                 }
 
                 @Override
@@ -153,10 +158,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
                                 if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
                                     if (!f.getPoster().equals("N/A")) {
-                                        Bitmap bitmap = ((BitmapDrawable) iv_poster.getDrawable()).getBitmap();
-                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                                        f.setImagem(stream.toByteArray());
+                                        f.setImagem(Utils.convertBitmapToArrayByte(binding.imgFilme));
                                     }
                                     movieDatabase.daoAccess().insertFilme(f);
                                     Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
@@ -199,15 +201,16 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
     }
 
-    public void Preencher() {
+    public void preencherView() {
 
         toolbar.setTitle(f.getTitle());
-        tv_descricao.setText(f.getPlot());
-        tv_director.setText(f.getDirector());
-        tv_actors.setText(f.getActors());
-        tv_rated.setText(f.getRated());
-        tv_released.setText(f.getReleased());
-        tv_writer.setText(f.getWriter());
+        binding.tvDescricao.setText(f.getPlot());
+        binding.tvDirector.setText(f.getDirector());
+        binding.tvActors.setText(f.getActors());
+        binding.tvRated.setText(f.getRated());
+        binding.tvReleased.setText(f.getReleased());
+        binding.tvWriter.setText(f.getWriter());
+        
         tv_language.setText(f.getLanguage());
         tv_country.setText(f.getCountry());
         imdb_rating.setText(f.getImdbRating());
