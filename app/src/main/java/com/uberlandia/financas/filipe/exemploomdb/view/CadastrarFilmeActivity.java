@@ -37,28 +37,12 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     private FilmeSelecionado f;
     private byte[] array;
     private String imdbId;
-    /*private ImageView iv_poster;
-    private TextView tv_info;
-    private TextView tv_descricao;
-    private TextView tv_director;
-    private TextView tv_actors;
-    private TextView tv_rated;
-    private TextView tv_released;
-    private TextView tv_writer;
-    private TextView tv_language;
-    private TextView tv_country;
-    private TextView imdb_rating;
-    private TextView metascore;
-    private TextView tv_duracao;
-    private TextView tv_year;*/
-    private FloatingActionButton fab;
-    private FloatingActionButton fabRemove;
+
     private Call<FilmeSelecionado> call;
     int vergonhaUnicode = 0x1F605;
     int felizUnicode = 0x1F609;
     String jacadastrou;
     String sucesso;
-    private Toolbar toolbar;
 
     ActivityCadastrarFilmeBinding binding;
     CadastrarViewModel cadastrarViewModel;
@@ -73,48 +57,29 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cadastrar_filme);
         binding.setCadastrarViewModel(cadastrarViewModel);
         binding.executePendingBindings();
-
-        // layoutIMG = findViewById(R.id.layoutIMG);
         jacadastrou = new String(Character.toChars(vergonhaUnicode));
         sucesso = new String(Character.toChars(felizUnicode));
-        iv_poster = findViewById(R.id.img_filme);
-        tv_descricao = findViewById(R.id.tv_descricao);
-        tv_director = findViewById(R.id.tv_director);
-        tv_actors = findViewById(R.id.tv_actors);
-        tv_rated = findViewById(R.id.tv_rated);
-        tv_released = findViewById(R.id.tv_released);
-        tv_writer = findViewById(R.id.tv_writer);
-        tv_language = findViewById(R.id.tv_language);
-        tv_country = findViewById(R.id.tv_country);
-        imdb_rating = findViewById(R.id.imdb_rating);
-        metascore = findViewById(R.id.metascore_rating);
-        tv_duracao = findViewById(R.id.runtime_text);
-        tv_year = findViewById(R.id.year_text);
-        fab = findViewById(R.id.fab);
-        fabRemove = findViewById(R.id.fabRemove);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         imdbId = bundle.getString("imdbid");
         fragment = bundle.getString("fragment");
-        movieDatabase = FilmeDatabase.getInstance(getApplicationContext());
-
+        movieDatabase = Utils.getFilmeDatabaseInstance(getApplicationContext());
 
         f = movieDatabase.daoAccess().findFilmeById(imdbId);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar12);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        binding.toolbar12.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        System.out.println("TESSSTE" + f);
 
 
         if (f != null) {
-            fab.setVisibility(View.GONE);
-            fabRemove.setVisibility(View.VISIBLE);
+            binding.fab.setVisibility(View.GONE);
+            binding.fabRemove.setVisibility(View.VISIBLE);
 
             if (!f.getPoster().equals("N/A")) {
                 Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
@@ -124,8 +89,8 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
         } else {
 
-            fab.setVisibility(View.VISIBLE);
-            fabRemove.setVisibility(View.GONE);
+            binding.fab.setVisibility(View.VISIBLE);
+            binding.fabRemove.setVisibility(View.GONE);
             call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
             call.enqueue(new Callback<FilmeSelecionado>() {
                 @Override
@@ -147,7 +112,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         }
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
 
@@ -178,7 +143,7 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
             }
         });
 
-        fabRemove.setOnClickListener(new View.OnClickListener() {
+        binding.fabRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
 
@@ -203,19 +168,18 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
     public void preencherView() {
 
-        toolbar.setTitle(f.getTitle());
+        binding.toolbar12.setTitle(f.getTitle());
         binding.tvDescricao.setText(f.getPlot());
         binding.tvDirector.setText(f.getDirector());
         binding.tvActors.setText(f.getActors());
         binding.tvRated.setText(f.getRated());
         binding.tvReleased.setText(f.getReleased());
         binding.tvWriter.setText(f.getWriter());
-        
-        tv_language.setText(f.getLanguage());
-        tv_country.setText(f.getCountry());
-        imdb_rating.setText(f.getImdbRating());
-        metascore.setText(f.getMetascore());
-        tv_year.setText(f.getYear());
-        tv_duracao.setText(f.getRuntime());
+        binding.tvLanguage.setText(f.getLanguage());
+        binding.tvCountry.setText(f.getCountry());
+        binding.imdbRating.setText(f.getImdbRating());
+        binding.metascoreRating.setText(f.getMetascore());
+        binding.yearText.setText(f.getYear());
+        binding.runtimeText.setText(f.getRuntime());
     }
 }

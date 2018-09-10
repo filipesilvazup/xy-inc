@@ -1,48 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.uberlandia.financas.filipe.exemploomdb.view.GaleriaFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/edt_nome"
-        android:layout_margin="10dp"
-        >
+    <data>
 
-        <ProgressBar
-            android:id="@+id/progress_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_filmes_cadastrados"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="horizontal"
-            />
-
-
-    </FrameLayout>
+        <variable
+            name="galeriaViewModel"
+            type="com.uberlandia.financas.filipe.exemploomdb.viewmodel.GaleriaViewModel" />
+    </data>
 
     <RelativeLayout
-        android:id="@+id/view_empyt_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:visibility="gone">
+        android:orientation="vertical"
+        tools:context="com.uberlandia.financas.filipe.exemploomdb.view.GaleriaFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="SEM FILMES SALVOS" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="22dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/edt_nome"
+            android:layout_margin="10dp">
+
+            <ProgressBar
+                android:id="@+id/progress_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_filmes_cadastrados"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="horizontal" />
+
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_empyt_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="SEM FILMES SALVOS" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
-</RelativeLayout>
+</layout>

@@ -1,76 +1,84 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.uberlandia.financas.filipe.exemploomdb.view.BuscaFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <data>
+
+        <variable
+            name="buscaViewModel"
+            type="com.uberlandia.financas.filipe.exemploomdb.viewmodel.BuscaViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context="com.uberlandia.financas.filipe.exemploomdb.view.BuscaFragment">
-
-        <EditText
-            android:id="@+id/edt_nome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn1"
-            android:contextClickable="true"
-            android:hint="Nome do Filme"
-            android:inputType="text"
-            android:padding="15dp"
-            android:textSize="20dp" />
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/edt_nome"
-            android:layout_margin="10dp">
+            android:orientation="vertical"
+            tools:context="com.uberlandia.financas.filipe.exemploomdb.view.BuscaFragment">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/list_movies"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/viewProgress"
-                android:scrollbars="vertical" />
-
-            <RelativeLayout
-                android:layout_alignParentBottom="true"
-                android:id="@+id/viewProgress"
+            <EditText
+                android:id="@+id/edt_nome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone">
+                android:contextClickable="true"
+                android:hint="Nome do Filme"
+                android:inputType="text"
+                android:padding="15dp"
+                android:textSize="20dp" />
 
-                <ProgressBar
-                    android:id="@+id/progress_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="true"/>
-
-            </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/view_empyt_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:visibility="gone">
+                android:layout_below="@+id/edt_nome"
+                android:layout_margin="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_movies"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/viewProgress"
+                    android:scrollbars="vertical" />
+
+                <RelativeLayout
+                    android:id="@+id/viewProgress"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
-                    android:text="FILME NÃO ENCONTRADO" />
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        android:id="@+id/progress_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view_empyt_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="FILME NÃO ENCONTRADO" />
+
+                </RelativeLayout>
 
             </RelativeLayout>
+
         </RelativeLayout>
 
 
     </RelativeLayout>
-
-
-</RelativeLayout>
+</layout>

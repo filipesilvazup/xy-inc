@@ -1,10 +1,12 @@
 package com.uberlandia.financas.filipe.exemploomdb.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 
 import java.io.ByteArrayOutputStream;
 
@@ -23,5 +25,9 @@ public class Utils {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         return stream.toByteArray();
+    }
+
+    public static FilmeDatabase getFilmeDatabaseInstance(Context context){
+        return FilmeDatabase.getInstance(context);
     }
 }

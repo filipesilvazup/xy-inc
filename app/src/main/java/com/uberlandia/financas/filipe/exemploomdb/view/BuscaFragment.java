@@ -3,6 +3,7 @@ package com.uberlandia.financas.filipe.exemploomdb.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -18,11 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.databinding.FragmentBuscaBinding;
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListener;
 import com.uberlandia.financas.filipe.exemploomdb.service.RetrofitConfig;
 import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.model.Result;
 import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
+import com.uberlandia.financas.filipe.exemploomdb.viewmodel.BuscaViewModel;
 
 import java.util.ArrayList;
 
@@ -35,19 +38,24 @@ public class BuscaFragment extends Fragment {
     public BuscaFragment() {
     }
 
-    private RecyclerView listMovies;
+   /* private RecyclerView listMovies;
+    private EditText filme;
+    private RelativeLayout progress_spinner;
+    private RelativeLayout viewEmpytList;*/
+
     private MyAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    public Context context;
     private Result f;
     ArrayList<Filme> listFilmes;
     private int smillingUnicode = 0x1F60A;
     private String smilling;
-    private EditText filme;
-    private RelativeLayout viewEmpytList;
     protected Handler handler;
     private int cont;
-    private RelativeLayout progress_spinner;
+
+    BuscaViewModel buscaViewModel;
+    FragmentBuscaBinding binding;
+
+
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -60,17 +68,28 @@ public class BuscaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_busca, container, false);
+       // View view = inflater.inflate(R.layout.fragment_busca, container, false);
         smilling = new String(Character.toChars(smillingUnicode));
+        buscaViewModel = new BuscaViewModel();
+        binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_busca);
+        binding.setBuscaViewModel(buscaViewModel);
+        binding.executePendingBindings();
+
         getActivity().setTitle("Busque por um filme " + smilling);
-        listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
-        listMovies.setHasFixedSize(true);
+
+
+       /* listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
         viewEmpytList = view.findViewById(R.id.view_empyt_list);
-        mLayoutManager = new LinearLayoutManager(view.getContext());
-        listMovies.setLayoutManager(mLayoutManager);
         progress_spinner = view.findViewById(R.id.viewProgress);
+        filme = view.findViewById(R.id.edt_nome);*/
+
+        binding.listMovies.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        binding.listMovies.setLayoutManager(mLayoutManager);
+
         handler = new Handler();
-        listMovies.addOnItemTouchListener(
+
+        binding.listMovies.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
@@ -85,9 +104,8 @@ public class BuscaFragment extends Fragment {
                     }
                 })
         );
-        adapter = new MyAdapter(new ArrayList<Filme>(), listMovies);
-        filme = view.findViewById(R.id.edt_nome);
-        filme.setText("Batman");
+        adapter = new MyAdapter(new ArrayList<Filme>(), binding.listMovies);
+        binding.edtNome.setText("Batman");
 
         listFilmes = new ArrayList<Filme>();
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -95,25 +113,23 @@ public class BuscaFragment extends Fragment {
             @Override
             public void onLoadMore() {
 
-                if (progress_spinner.getVisibility() == View.GONE)
-                    progress_spinner.setVisibility(View.VISIBLE);
+                if (binding.viewProgress.getVisibility() == View.GONE)
+                    binding.viewProgress.setVisibility(View.VISIBLE);
 
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //listFilmes.remove(listFilmes.size() - 1);
-                        // adapter.notifyItemRemoved(listFilmes.size());
                         cont++;
-                        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", "" + cont);
+                        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(binding.edtNome.getText().toString(), "45023bb7", "" + cont);
                         call.enqueue(new Callback<Result>() {
                             @Override
                             public void onResponse(Call<Result> call, Response<Result> response) {
-                                viewEmpytList.setVisibility(View.GONE);
+                                binding.viewEmpytList.setVisibility(View.GONE);
                                 f = response.body();
 
                                 if (f.getResponse()) {
                                     getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
-                                    progress_spinner.setVisibility(View.GONE);
+                                    binding.viewProgress.setVisibility(View.GONE);
                                     adapter.atualizaLista(f.getSearch());
                                     adapter.setLoaded();
                                 }
@@ -133,27 +149,27 @@ public class BuscaFragment extends Fragment {
         });
 
 
-        filme.setOnKeyListener(new View.OnKeyListener() {
+        binding.edtNome.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     cont = 1;
                     adapter.atualizaLista(null);
-                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(filme.getText().toString(), "45023bb7", "" + cont);
+                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(binding.edtNome.getText().toString(), "45023bb7", "" + cont);
                     call.enqueue(new Callback<Result>() {
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
                             f = response.body();
                             if (f.getResponse()) {
-                                viewEmpytList.setVisibility(View.GONE);
+                                binding.viewEmpytList.setVisibility(View.GONE);
                                 getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
                                 adapter.atualizaLista(f.getSearch());
-                                listMovies.setAdapter(adapter);
+                                binding.listMovies.setAdapter(adapter);
                             } else {
                                 getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
-                                viewEmpytList.setVisibility(View.VISIBLE);
-                                listMovies.setAdapter(adapter);
-                                progress_spinner.setVisibility(View.GONE);
+                                binding.viewEmpytList.setVisibility(View.VISIBLE);
+                                binding.listMovies.setAdapter(adapter);
+                                binding.viewProgress.setVisibility(View.GONE);
                             }
                         }
 
@@ -170,6 +186,6 @@ public class BuscaFragment extends Fragment {
         });
 
 
-        return view;
+        return getView();
     }
 }
