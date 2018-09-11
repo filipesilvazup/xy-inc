@@ -34,7 +34,6 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
-                app:setupWithViewPager="@={viewPager}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"
@@ -45,7 +44,6 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:addOnPageChangeListener="@={mainTabsViewModel.pageChangeListener}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>
 

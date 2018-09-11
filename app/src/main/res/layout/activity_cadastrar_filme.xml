@@ -62,6 +62,7 @@
 
                 <TextView
                     android:id="@+id/imdb_rating"
+                    android:text="@={cadastrarViewModel.imdb_rating}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/imdb"
@@ -80,6 +81,7 @@
 
                 <TextView
                     android:id="@+id/metascore_rating"
+                    android:text="@={cadastrarViewModel.metascore}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/metascore"
@@ -98,6 +100,7 @@
 
                 <TextView
                     android:id="@+id/year_text"
+                    android:text="@={cadastrarViewModel.tv_year}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/year"
@@ -116,6 +119,7 @@
 
                 <TextView
                     android:id="@+id/runtime_text"
+                    android:text="@={cadastrarViewModel.tv_duracao}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/runtime"
@@ -149,6 +153,7 @@
                 android:orientation="vertical">
 
                 <TextView
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -157,6 +162,7 @@
                     android:textSize="25dp" />
 
                 <TextView
+                    android:text="@={cadastrarViewModel.tv_descricao}"
                     android:id="@+id/tv_descricao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -164,7 +170,6 @@
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
-                    android:text="dsadasdsa"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp"
 
@@ -188,6 +193,7 @@
 
                 <TextView
                     android:id="@+id/tv_director"
+                    android:text="@={cadastrarViewModel.tv_director}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -215,6 +221,7 @@
 
                 <TextView
                     android:id="@+id/tv_actors"
+                    android:text="@={cadastrarViewModel.tv_actors}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -242,6 +249,7 @@
 
                 <TextView
                     android:id="@+id/tv_rated"
+                    android:text="@={cadastrarViewModel.tv_rated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -270,6 +278,7 @@
 
                 <TextView
                     android:id="@+id/tv_released"
+                    android:text="@={cadastrarViewModel.tv_released}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -297,6 +306,7 @@
 
                 <TextView
                     android:id="@+id/tv_writer"
+                    android:text="@={cadastrarViewModel.tv_writer}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -324,6 +334,7 @@
 
                 <TextView
                     android:id="@+id/tv_language"
+                    android:text="@={cadastrarViewModel.tv_language}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
@@ -351,6 +362,7 @@
 
                 <TextView
                     android:id="@+id/tv_country"
+                    android:text="@={cadastrarViewModel.tv_country}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"

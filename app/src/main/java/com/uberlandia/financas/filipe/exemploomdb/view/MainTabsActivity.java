@@ -2,6 +2,7 @@ package com.uberlandia.financas.filipe.exemploomdb.view;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -23,9 +24,9 @@ import java.util.List;
 
 public class MainTabsActivity extends AppCompatActivity {
 
-   /* private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;*/
+    /* private Toolbar toolbar;
+     private TabLayout tabLayout;
+     private ViewPager viewPager;*/
     private static ViewPagerAdapter adapter;
 
     ActivityMainTabsBinding binding;
@@ -34,39 +35,27 @@ public class MainTabsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // App.get(this).component().inject(this);
-         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_tabs);
-         binding.setHandler(this);
-        binding.setManager(getSupportFragmentManager());
-
-        //binding.setManager(getSupportFragmentManager());
-
         mainTabsViewModel = new MainTabsViewModel();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_tabs);
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(binding.toolbar);
-
-        //viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(binding.viewpager);
-
-        //tabLayout = (TabLayout) findViewById(R.id.tabs);
-        //tabLayout.setupWithViewPager(viewPager);
+        binding.setMainTabsViewModel(mainTabsViewModel);
         binding.tabs.setupWithViewPager(binding.viewpager);
+        binding.setHandler(this);
+        binding.setManager(getSupportFragmentManager());
+        setSupportActionBar(binding.toolbar);
+        setupViewPager();
     }
 
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager() {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        GaleriaFragment galeriaFragment = new GaleriaFragment();
-        BuscaFragment buscaFragment = new BuscaFragment();
-        adapter.addFragment(0, galeriaFragment, "Busca");
-        //adapter.addFragment(0, buscaFragment, "Galeria");
-        viewPager.setAdapter(adapter);
+        adapter.addFragment(new BuscaFragment(), "Busca");
+        adapter.addFragment(new GaleriaFragment(), "Galeria");
+        binding.viewpager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+        private List<Fragment> mFragmentList = new ArrayList<>();
+        private List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
@@ -82,18 +71,16 @@ public class MainTabsActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
 
-        public void addFragment(int position, Fragment fragment, String title) {
-            mFragmentList.add(position, fragment);
-            mFragmentTitleList.add(position, title);
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

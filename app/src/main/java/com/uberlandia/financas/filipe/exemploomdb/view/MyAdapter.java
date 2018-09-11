@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.uberlandia.financas.filipe.exemploomdb.R;
 import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
+import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,6 @@ public class MyAdapter extends RecyclerView.Adapter {
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
-
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -68,8 +68,6 @@ public class MyAdapter extends RecyclerView.Adapter {
                                     .findLastVisibleItemPosition();
                             if (!loading
                                     && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                                // End has been reached
-                                // Do something
                                 if (onLoadMoreListener != null) {
                                     onLoadMoreListener.onLoadMore();
                                 }
@@ -89,7 +87,7 @@ public class MyAdapter extends RecyclerView.Adapter {
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        ViewHolder vh=null;
+        ViewHolder vh = null;
         if (viewType == VIEW_ITEM) {
             View v = (View) LayoutInflater.from(parent.getContext()).inflate
                     (R.layout.item_filme, parent, false);
@@ -121,11 +119,7 @@ public class MyAdapter extends RecyclerView.Adapter {
 
             ((MyAdapter.ViewHolder) holder).tvTitulo.setText(mDataset.get(position).getTitle());
             if (mDataset.get(position).getImdbID() != "" && !mDataset.get(position).getPoster().equals("N/A")) {
-                Picasso.get()
-                        .load(mDataset.get(position).getPoster())
-                        .resize(280, 350)
-                        .centerCrop()
-                        .into(((MyAdapter.ViewHolder) holder).imagemFilme);
+                Utils.setImagePicasso(mDataset.get(position).getPoster(), ((MyAdapter.ViewHolder) holder).imagemFilme);
             }
             ((MyAdapter.ViewHolder) holder).tvImdbId.setText(mDataset.get(position).getImdbID());
             ((MyAdapter.ViewHolder) holder).tvYear.setText(mDataset.get(position).getYear());
@@ -145,7 +139,6 @@ public class MyAdapter extends RecyclerView.Adapter {
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
     }
-
 
 
 }

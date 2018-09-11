@@ -38,11 +38,6 @@ public class BuscaFragment extends Fragment {
     public BuscaFragment() {
     }
 
-   /* private RecyclerView listMovies;
-    private EditText filme;
-    private RelativeLayout progress_spinner;
-    private RelativeLayout viewEmpytList;*/
-
     private MyAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Result f;
@@ -52,8 +47,8 @@ public class BuscaFragment extends Fragment {
     protected Handler handler;
     private int cont;
 
-    BuscaViewModel buscaViewModel;
-    FragmentBuscaBinding binding;
+    private BuscaViewModel buscaViewModel;
+    private FragmentBuscaBinding binding;
 
 
 
@@ -62,33 +57,26 @@ public class BuscaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getActivity().setContentView(R.layout.fragment_busca);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       // View view = inflater.inflate(R.layout.fragment_busca, container, false);
         smilling = new String(Character.toChars(smillingUnicode));
         buscaViewModel = new BuscaViewModel();
-        binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_busca);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_busca, container, false);
         binding.setBuscaViewModel(buscaViewModel);
         binding.executePendingBindings();
 
         getActivity().setTitle("Busque por um filme " + smilling);
-
-
-       /* listMovies = (RecyclerView) view.findViewById(R.id.list_movies);
-        viewEmpytList = view.findViewById(R.id.view_empyt_list);
-        progress_spinner = view.findViewById(R.id.viewProgress);
-        filme = view.findViewById(R.id.edt_nome);*/
 
         binding.listMovies.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         binding.listMovies.setLayoutManager(mLayoutManager);
 
         handler = new Handler();
-
         binding.listMovies.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -97,7 +85,6 @@ public class BuscaFragment extends Fragment {
                         Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
-                        bundle.putString("fragment", "busca");
                         intent.putExtras(bundle);
                         getActivity().startActivityForResult(intent, 1);
 
@@ -186,6 +173,6 @@ public class BuscaFragment extends Fragment {
         });
 
 
-        return getView();
+        return binding.getRoot();
     }
 }

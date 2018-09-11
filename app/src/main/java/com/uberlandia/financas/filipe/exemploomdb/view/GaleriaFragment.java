@@ -19,10 +19,13 @@ import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.R;
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListener;
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
+import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.GaleriaViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 /**
  * Created by Filipe on 23/08/2018.
@@ -45,6 +48,7 @@ public class GaleriaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toast.makeText(getContext(), "OnDestroy", Toast.LENGTH_LONG).show();
+        //getActivity().setContentView(R.layout.fragment_galeria);
 
     }
 
@@ -73,18 +77,12 @@ public class GaleriaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-       // final View view = inflater.inflate(R.layout.fragment_galeria, container, false);
         galeriaViewModel = new GaleriaViewModel();
-        binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_galeria);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_galeria, container, false);
         binding.setGaleriaViewModel(galeriaViewModel);
         binding.executePendingBindings();
 
-        movieDatabase = FilmeDatabase.getInstance(getActivity().getApplicationContext());
-
-
-        //listMovies = (RecyclerView) view.findViewById(R.id.list_filmes_cadastrados);
-        //view_empyt_list = view.findViewById(R.id.view_empyt_list);
+        movieDatabase = Utils.getFilmeDatabaseInstance(getActivity().getApplicationContext());
 
         binding.listFilmesCadastrados.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(getActivity(), 3);
@@ -98,12 +96,11 @@ public class GaleriaFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("imdbid", imdbId.getText().toString());
-                        bundle.putString("fragment", "galeria");
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 })
         );
-        return getView();
+        return binding.getRoot();
     }
 }

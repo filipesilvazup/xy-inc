@@ -33,37 +33,33 @@ import retrofit2.Response;
 
 public class CadastrarFilmeActivity extends AppCompatActivity {
     private FilmeDatabase movieDatabase;
-    private String fragment;
     private FilmeSelecionado f;
-    private byte[] array;
     private String imdbId;
 
     private Call<FilmeSelecionado> call;
     int vergonhaUnicode = 0x1F605;
     int felizUnicode = 0x1F609;
-    String jacadastrou;
-    String sucesso;
+    private String jacadastrou;
+    private String sucesso;
 
-    ActivityCadastrarFilmeBinding binding;
-    CadastrarViewModel cadastrarViewModel;
+    private ActivityCadastrarFilmeBinding binding;
+    private CadastrarViewModel cadastrarViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("");
-
         cadastrarViewModel = new CadastrarViewModel();
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cadastrar_filme);
         binding.setCadastrarViewModel(cadastrarViewModel);
         binding.executePendingBindings();
+
         jacadastrou = new String(Character.toChars(vergonhaUnicode));
         sucesso = new String(Character.toChars(felizUnicode));
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         imdbId = bundle.getString("imdbid");
-        fragment = bundle.getString("fragment");
         movieDatabase = Utils.getFilmeDatabaseInstance(getApplicationContext());
 
         f = movieDatabase.daoAccess().findFilmeById(imdbId);
