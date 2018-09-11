@@ -34,6 +34,9 @@ public class MyAdapter extends RecyclerView.Adapter {
         public TextView tvImdbId;
         public TextView tvYear;
 
+       // ActivityItemFilmeBinding binding;
+
+
 
         public ViewHolder(View v) {
             super(v);
