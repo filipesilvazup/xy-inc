@@ -1,7 +1,6 @@
 package com.uberlandia.financas.filipe.exemploomdb.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,10 +13,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.uberlandia.financas.filipe.exemploomdb.R;
 import com.uberlandia.financas.filipe.exemploomdb.databinding.FragmentBuscaBinding;
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListener;
@@ -26,9 +21,7 @@ import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.model.Result;
 import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.BuscaViewModel;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,19 +39,13 @@ public class BuscaFragment extends Fragment {
     private String smilling;
     protected Handler handler;
     private int cont;
-
     private BuscaViewModel buscaViewModel;
     private FragmentBuscaBinding binding;
-
-
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getActivity().setContentView(R.layout.fragment_busca);
-
     }
 
     @Override
@@ -81,10 +68,9 @@ public class BuscaFragment extends Fragment {
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        TextView imdbId = v.findViewById(R.id.tv_imdbID);
                         Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("imdbid", imdbId.getText().toString());
+                        bundle.putString("imdbid", MyAdapter.mDataset.get(position).getImdbID());
                         intent.putExtras(bundle);
                         getActivity().startActivityForResult(intent, 1);
 
@@ -171,7 +157,6 @@ public class BuscaFragment extends Fragment {
                 return true;
             }
         });
-
 
         return binding.getRoot();
     }

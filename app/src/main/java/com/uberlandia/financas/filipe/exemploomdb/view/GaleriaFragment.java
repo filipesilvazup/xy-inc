@@ -1,6 +1,4 @@
 package com.uberlandia.financas.filipe.exemploomdb.view;
-
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,10 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.uberlandia.financas.filipe.exemploomdb.databinding.FragmentGaleriaBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.R;
@@ -21,11 +16,8 @@ import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListe
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.GaleriaViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.internal.Util;
 
 /**
  * Created by Filipe on 23/08/2018.
@@ -33,7 +25,6 @@ import okhttp3.internal.Util;
 
 public class GaleriaFragment extends Fragment {
     public GaleriaFragment() {
-        // Required empty public constructor
     }
 
 
@@ -47,15 +38,11 @@ public class GaleriaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getContext(), "OnDestroy", Toast.LENGTH_LONG).show();
-        //getActivity().setContentView(R.layout.fragment_galeria);
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(getContext(), "OnDestroy", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -71,7 +58,6 @@ public class GaleriaFragment extends Fragment {
             adapter = new MyAdapterGaleria(todosFilmes);
             binding.listFilmesCadastrados.setAdapter(adapter);
         }
-
     }
 
     @Override

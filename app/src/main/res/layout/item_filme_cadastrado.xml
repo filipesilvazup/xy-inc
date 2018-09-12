@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="7dp"
 
-    >
-    <RelativeLayout
+<layout>
+
+    <data>
+
+        <variable
+            name="itemFilmeCadastradoViewModel"
+            type="com.uberlandia.financas.filipe.exemploomdb.viewmodel.ItemFilmeCadastradoViewModel" />
+    </data>
+
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:layout_margin="7dp">
 
-        <ImageView
-            android:id="@+id/img_filme"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="7dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:src="@drawable/ic_wallpaper"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/imdbID"/>
+            android:layout_height="wrap_content">
 
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+            <ImageView
+                android:id="@+id/img_filme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/ic_wallpaper" />
+
+            <TextView
+                android:id="@+id/imdbID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</layout>

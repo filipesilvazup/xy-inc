@@ -1,20 +1,16 @@
 package com.uberlandia.financas.filipe.exemploomdb.view;
-
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.databinding.ItemFilmeBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
 import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
-
+import com.uberlandia.financas.filipe.exemploomdb.viewmodel.ItemFilmeViewModel;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter {
@@ -26,31 +22,19 @@ public class MyAdapter extends RecyclerView.Adapter {
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitulo;
-        public ImageView imagemFilme;
-        public TextView tvImdbId;
-        public TextView tvYear;
+        private final ItemFilmeBinding binding;
 
-       // ActivityItemFilmeBinding binding;
-
-
-
-        public ViewHolder(View v) {
-            super(v);
-            tvTitulo = v.findViewById(R.id.tv_titulo);
-            imagemFilme = v.findViewById(R.id.img_filme);
-            tvImdbId = v.findViewById(R.id.tv_imdbID);
-            tvYear = v.findViewById(R.id.tv_year);
+        public ViewHolder(final ItemFilmeBinding itemFilmeBinding) {
+            super(itemFilmeBinding.getRoot());
+            this.binding = itemFilmeBinding;
         }
     }
 
     public MyAdapter(ArrayList<Filme> myDataset) {
         this.mDataset = myDataset;
     }
-
 
     public MyAdapter(ArrayList<Filme> filmes, RecyclerView recyclerView) {
         this.mDataset = filmes;
@@ -86,23 +70,20 @@ public class MyAdapter extends RecyclerView.Adapter {
         return mDataset.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
-
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         ViewHolder vh = null;
         if (viewType == VIEW_ITEM) {
-            View v = (View) LayoutInflater.from(parent.getContext()).inflate
-                    (R.layout.item_filme, parent, false);
-            vh = new MyAdapter.ViewHolder(v);
+
+            ItemFilmeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.item_filme, parent, false);
+            vh = new MyAdapter.ViewHolder(binding);
         }
         return vh;
-
-
     }
 
     public void atualizaLista(ArrayList<Filme> filmes) {
-
 
         if (filmes == null) {
             this.mDataset.clear();
@@ -110,25 +91,24 @@ public class MyAdapter extends RecyclerView.Adapter {
             for (int i = 0; i < filmes.size(); i++)
                 this.mDataset.add(filmes.get(i));
         }
-
-
         notifyDataSetChanged();
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+        ((ViewHolder) holder).binding.setItemFilmeViewModel(new ItemFilmeViewModel());
+
         if (holder instanceof MyAdapter.ViewHolder) {
 
-            ((MyAdapter.ViewHolder) holder).tvTitulo.setText(mDataset.get(position).getTitle());
+            ((ViewHolder) holder).binding.tvTitulo.setText(mDataset.get(position).getTitle());
             if (mDataset.get(position).getImdbID() != "" && !mDataset.get(position).getPoster().equals("N/A")) {
-                Utils.setImagePicasso(mDataset.get(position).getPoster(), ((MyAdapter.ViewHolder) holder).imagemFilme);
+                Utils.setImagePicasso(mDataset.get(position).getPoster(), ((ViewHolder) holder).binding.imgFilme);
             }
-            ((MyAdapter.ViewHolder) holder).tvImdbId.setText(mDataset.get(position).getImdbID());
-            ((MyAdapter.ViewHolder) holder).tvYear.setText(mDataset.get(position).getYear());
+            ((ViewHolder) holder).binding.tvImdbID.setText(mDataset.get(position).getImdbID());
+            ((ViewHolder) holder).binding.tvYear.setText(mDataset.get(position).getYear());
         }
     }
-
 
     public void setLoaded() {
         loading = false;
@@ -142,8 +122,6 @@ public class MyAdapter extends RecyclerView.Adapter {
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
     }
-
-
 }
 
 

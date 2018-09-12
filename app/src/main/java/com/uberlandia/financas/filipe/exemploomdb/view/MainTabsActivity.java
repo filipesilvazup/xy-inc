@@ -5,30 +5,17 @@ import android.databinding.DataBindingUtil;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-
 import com.uberlandia.financas.filipe.exemploomdb.R;
 import com.uberlandia.financas.filipe.exemploomdb.databinding.ActivityMainTabsBinding;
-import com.uberlandia.financas.filipe.exemploomdb.view.BuscaFragment;
-import com.uberlandia.financas.filipe.exemploomdb.view.GaleriaFragment;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.MainTabsViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainTabsActivity extends AppCompatActivity {
 
-    /* private Toolbar toolbar;
-     private TabLayout tabLayout;
-     private ViewPager viewPager;*/
     private static ViewPagerAdapter adapter;
-
     ActivityMainTabsBinding binding;
     MainTabsViewModel mainTabsViewModel;
 
@@ -44,7 +31,6 @@ public class MainTabsActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         setupViewPager();
     }
-
 
     private void setupViewPager() {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
