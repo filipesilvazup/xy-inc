@@ -78,7 +78,7 @@ public class BuscaFragment extends Fragment {
                 })
         );
         adapter = new MyAdapter(new ArrayList<Filme>(), binding.listMovies);
-        binding.edtNome.setText("Batman");
+        buscaViewModel.busca.set("Batman");
 
         listFilmes = new ArrayList<Filme>();
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -86,8 +86,8 @@ public class BuscaFragment extends Fragment {
             @Override
             public void onLoadMore() {
 
-                if (binding.viewProgress.getVisibility() == View.GONE)
-                    binding.viewProgress.setVisibility(View.VISIBLE);
+                if (!buscaViewModel.viewProgress.get())
+                    buscaViewModel.viewProgress.set(true);
 
                 handler.postDelayed(new Runnable() {
                     @Override

@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toolbar;
+
 import com.uberlandia.financas.filipe.exemploomdb.databinding.ActivityCadastrarFilmeBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.R;
@@ -50,7 +52,6 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         movieDatabase = Utils.getFilmeDatabaseInstance(getApplicationContext());
 
         f = movieDatabase.daoAccess().findFilmeById(imdbId);
-
         binding.toolbar12.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,18 +143,31 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     }
 
     public void preencherView() {
+
         binding.toolbar12.setTitle(f.getTitle());
-        binding.tvDescricao.setText(f.getPlot());
-        binding.tvDirector.setText(f.getDirector());
-        binding.tvActors.setText(f.getActors());
-        binding.tvRated.setText(f.getRated());
-        binding.tvReleased.setText(f.getReleased());
-        binding.tvWriter.setText(f.getWriter());
-        binding.tvLanguage.setText(f.getLanguage());
-        binding.tvCountry.setText(f.getCountry());
-        binding.imdbRating.setText(f.getImdbRating());
-        binding.metascoreRating.setText(f.getMetascore());
-        binding.yearText.setText(f.getYear());
-        binding.runtimeText.setText(f.getRuntime());
+        cadastrarViewModel.tv_descricao.set(f.getPlot());
+        cadastrarViewModel.tv_director.set(f.getDirector());
+        cadastrarViewModel.tv_actors.set(f.getActors());
+        cadastrarViewModel.tv_rated.set(f.getRated());
+        cadastrarViewModel.tv_released.set(f.getReleased());
+        cadastrarViewModel.tv_writer.set(f.getWriter());
+        cadastrarViewModel.tv_language.set(f.getLanguage());
+        cadastrarViewModel.tv_country.set(f.getCountry());
+        cadastrarViewModel.imdb_rating.set(f.getImdbRating());
+        cadastrarViewModel.metascore.set(f.getMetascore());
+        cadastrarViewModel.tv_year.set(f.getYear());
+        cadastrarViewModel.tv_duracao.set(f.getRuntime());
+        //binding.tvDescricao.setText(f.getPlot());
+        //binding.tvDirector.setText(f.getDirector());
+        //binding.tvActors.setText(f.getActors());
+        //binding.tvRated.setText(f.getRated());
+        //binding.tvReleased.setText(f.getReleased());
+        //binding.tvWriter.setText(f.getWriter());
+        //binding.tvLanguage.setText(f.getLanguage());
+        //binding.tvCountry.setText(f.getCountry());
+        //binding.imdbRating.setText(f.getImdbRating());
+        //binding.metascoreRating.setText(f.getMetascore());
+        //binding.yearText.setText(f.getYear());
+        //binding.runtimeText.setText(f.getRuntime());
     }
 }

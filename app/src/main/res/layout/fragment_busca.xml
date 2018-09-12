@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="buscaViewModel"
@@ -27,7 +28,8 @@
                 android:hint="Nome do Filme"
                 android:inputType="text"
                 android:padding="15dp"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:text="@={buscaViewModel.busca}"/>
 
 
             <RelativeLayout
@@ -49,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerInParent="true"
-                    android:visibility="gone">
+                    android:visibility="@{buscaViewModel.viewProgress ? View.VISIBLE : View.GONE}">
 
                     <ProgressBar
                         android:id="@+id/progress_spinner"
