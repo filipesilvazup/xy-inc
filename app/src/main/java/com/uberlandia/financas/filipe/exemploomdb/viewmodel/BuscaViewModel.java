@@ -11,12 +11,10 @@ public class BuscaViewModel {
 
     public ObservableField<String> busca = new ObservableField<>("");
     public ObservableBoolean viewProgress = new ObservableBoolean();
+    public ObservableBoolean emptyList = new ObservableBoolean();
+    public ObservableField<String> filme = new ObservableField<>("");;
+    public ObservableField<String> imdbID = new ObservableField<>("");
 
-    public ObservableField<EditText> filme;
-    public  ObservableField<RecyclerView> listMovies;
-    public ObservableField<RelativeLayout> progressSpinner;
-    public  ObservableField<RelativeLayout> viewEmpytList;
-    public ObservableField<TextView> imdbID;
-
+    
 
 }

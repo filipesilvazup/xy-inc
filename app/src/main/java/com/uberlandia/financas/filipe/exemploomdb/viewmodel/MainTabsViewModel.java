@@ -6,7 +6,5 @@ import android.support.v4.view.ViewPager;
 import android.widget.Toolbar;
 
 public class MainTabsViewModel {
-    public ObservableField<Toolbar> toolbar;
-    public ObservableField<TabLayout> tabLayout;
-    public ObservableField<ViewPager> viewPager;
+
 }

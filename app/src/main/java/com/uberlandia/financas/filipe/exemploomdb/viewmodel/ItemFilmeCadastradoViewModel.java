@@ -5,6 +5,5 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ItemFilmeCadastradoViewModel {
-    public ObservableField<TextView> imdbID;
-    public ObservableField<ImageView> imgfilme;
+    public ObservableField<String> imdbID = new ObservableField<>();
 }

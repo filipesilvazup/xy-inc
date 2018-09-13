@@ -6,9 +6,8 @@ import android.widget.TextView;
 
 public class ItemFilmeViewModel {
 
-    public ObservableField<TextView> tvTitulo;
-    public ObservableField<TextView> tvImdbId;
-    public ObservableField<TextView> tvYear;
-    public ObservableField<ImageView> imagemFilme;
+    public ObservableField<String> tvTitulo = new ObservableField<>();
+    public ObservableField<String> tvImdbId = new ObservableField<>();
+    public ObservableField<String> tvYear = new ObservableField<>();
 
 }

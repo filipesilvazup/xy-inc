@@ -1,4 +1,5 @@
 package com.uberlandia.financas.filipe.exemploomdb.view;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -9,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toolbar;
 
 import com.uberlandia.financas.filipe.exemploomdb.databinding.ActivityCadastrarFilmeBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
@@ -18,6 +18,7 @@ import com.uberlandia.financas.filipe.exemploomdb.service.RetrofitConfig;
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.CadastrarViewModel;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,13 +32,14 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     int felizUnicode = 0x1F609;
     private String jacadastrou;
     private String sucesso;
-    private ActivityCadastrarFilmeBinding binding;
-    private CadastrarViewModel cadastrarViewModel;
+    ActivityCadastrarFilmeBinding binding;
+    CadastrarViewModel cadastrarViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("");
+
         cadastrarViewModel = new CadastrarViewModel();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cadastrar_filme);
         binding.setCadastrarViewModel(cadastrarViewModel);
@@ -60,8 +62,8 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         });
 
         if (f != null) {
-            binding.fab.setVisibility(View.GONE);
-            binding.fabRemove.setVisibility(View.VISIBLE);
+            cadastrarViewModel.fabSalvar.set(false);
+            cadastrarViewModel.fabRemover.set(true);
 
             if (!f.getPoster().equals("N/A")) {
                 Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
@@ -70,8 +72,9 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
             preencherView();
 
         } else {
-            binding.fab.setVisibility(View.VISIBLE);
-            binding.fabRemove.setVisibility(View.GONE);
+            cadastrarViewModel.fabSalvar.set(true);
+            cadastrarViewModel.fabRemover.set(false);
+
             call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
             call.enqueue(new Callback<FilmeSelecionado>() {
                 @Override
@@ -80,9 +83,11 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                     System.out.println(f.toString());
                     if (!f.getPoster().equals("N/A")) {
                         Utils.setImagePicasso(f.getPoster(), binding.imgFilme);
+                        
                     }
                     preencherView();
                 }
+
                 @Override
                 public void onFailure(Call<FilmeSelecionado> call, Throwable t) {
                     Snackbar.make(findViewById(android.R.id.content), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
@@ -90,84 +95,60 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
                 }
             });
         }
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
-                builder.setMessage("Deseja salvar o filme: " + f.getTitle() + " ?")
-                        .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
-                                    if (!f.getPoster().equals("N/A")) {
-                                        f.setImagem(Utils.convertBitmapToArrayByte(binding.imgFilme));
-                                    }
-                                    movieDatabase.daoAccess().insertFilme(f);
-                                    Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-
-                                } else {
-                                    Snackbar.make(view, "VOCÊ JÁ CADASTROU ESSE FILME " + jacadastrou, Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                builder.show();
-            }
-        });
-
-        binding.fabRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
-                builder.setMessage("Deseja remover o filme: " + f.getTitle() + " ?")
-                        .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                movieDatabase.daoAccess().deleteByID(f.getImdbID());
-                                Snackbar.make(view, "FILME REMOVIDO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                            }
-                        })
-                        .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                builder.show();
-            }
-        });
-
     }
 
-    public void preencherView() {
+    public void Salvar(final View view) {
 
+        final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
+        builder.setMessage("Deseja salvar o filme: " + f.getTitle() + " ?")
+                .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
+                            if (!f.getPoster().equals("N/A")) {
+                                f.setImagem(Utils.convertBitmapToArrayByte(binding.imgFilme));
+                            }
+                            movieDatabase.daoAccess().insertFilme(f);
+                            Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
+                        } else {
+                            Snackbar.make(view, "VOCÊ JÁ CADASTROU ESSE FILME " + jacadastrou, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    }
+                })
+                .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder.show();
+    }
+
+    public void Remover(final View view) {
+        if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) != null) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
+            builder.setMessage("Deseja remover o filme: " + f.getTitle() + " ?")
+                    .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            movieDatabase.daoAccess().deleteByID(f.getImdbID());
+                            Snackbar.make(view, "FILME REMOVIDO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+                    })
+                    .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            builder.show();
+        } else {
+            Snackbar.make(view, "FILME JÁ FOI REMOVIDO" + sucesso, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
+    }
+
+
+    public void preencherView() {
         binding.toolbar12.setTitle(f.getTitle());
-        cadastrarViewModel.tv_descricao.set(f.getPlot());
-        cadastrarViewModel.tv_director.set(f.getDirector());
-        cadastrarViewModel.tv_actors.set(f.getActors());
-        cadastrarViewModel.tv_rated.set(f.getRated());
-        cadastrarViewModel.tv_released.set(f.getReleased());
-        cadastrarViewModel.tv_writer.set(f.getWriter());
-        cadastrarViewModel.tv_language.set(f.getLanguage());
-        cadastrarViewModel.tv_country.set(f.getCountry());
-        cadastrarViewModel.imdb_rating.set(f.getImdbRating());
-        cadastrarViewModel.metascore.set(f.getMetascore());
-        cadastrarViewModel.tv_year.set(f.getYear());
-        cadastrarViewModel.tv_duracao.set(f.getRuntime());
-        //binding.tvDescricao.setText(f.getPlot());
-        //binding.tvDirector.setText(f.getDirector());
-        //binding.tvActors.setText(f.getActors());
-        //binding.tvRated.setText(f.getRated());
-        //binding.tvReleased.setText(f.getReleased());
-        //binding.tvWriter.setText(f.getWriter());
-        //binding.tvLanguage.setText(f.getLanguage());
-        //binding.tvCountry.setText(f.getCountry());
-        //binding.imdbRating.setText(f.getImdbRating());
-        //binding.metascoreRating.setText(f.getMetascore());
-        //binding.yearText.setText(f.getYear());
-        //binding.runtimeText.setText(f.getRuntime());
+        cadastrarViewModel.preencherView(f);
     }
 }

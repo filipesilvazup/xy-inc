@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.uberlandia.financas.filipe.exemploomdb.R;
 import com.uberlandia.financas.filipe.exemploomdb.databinding.FragmentBuscaBinding;
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListener;
@@ -21,7 +22,9 @@ import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
 import com.uberlandia.financas.filipe.exemploomdb.model.Result;
 import com.uberlandia.financas.filipe.exemploomdb.service.OnLoadMoreListener;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.BuscaViewModel;
+
 import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +42,7 @@ public class BuscaFragment extends Fragment {
     private String smilling;
     protected Handler handler;
     private int cont;
+    private String busca;
     private BuscaViewModel buscaViewModel;
     private FragmentBuscaBinding binding;
 
@@ -58,6 +62,7 @@ public class BuscaFragment extends Fragment {
         binding.executePendingBindings();
 
         getActivity().setTitle("Busque por um filme " + smilling);
+        busca = "";
 
         binding.listMovies.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -82,29 +87,32 @@ public class BuscaFragment extends Fragment {
 
         listFilmes = new ArrayList<Filme>();
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-
             @Override
             public void onLoadMore() {
-
-                if (!buscaViewModel.viewProgress.get())
-                    buscaViewModel.viewProgress.set(true);
-
+                buscaViewModel.viewProgress.set(true);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         cont++;
-                        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(binding.edtNome.getText().toString(), "45023bb7", "" + cont);
+                        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(busca, "45023bb7", "" + cont);
                         call.enqueue(new Callback<Result>() {
                             @Override
                             public void onResponse(Call<Result> call, Response<Result> response) {
-                                binding.viewEmpytList.setVisibility(View.GONE);
+
                                 f = response.body();
 
                                 if (f.getResponse()) {
                                     getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
-                                    binding.viewProgress.setVisibility(View.GONE);
+                                    if(buscaViewModel.emptyList.get()){
+                                        buscaViewModel.emptyList.set(false);
+                                    }
+                                    buscaViewModel.viewProgress.set(false);
                                     adapter.atualizaLista(f.getSearch());
                                     adapter.setLoaded();
+                                }else{
+                                    Snackbar.make(getActivity().findViewById(android.R.id.content), "ÚLTIMOS FILMES DA PESQUISA" + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
+                                            .setAction("Action", null).show();
+                                    buscaViewModel.viewProgress.set(false);
                                 }
                             }
 
@@ -116,7 +124,7 @@ public class BuscaFragment extends Fragment {
                         });
 
                     }
-                }, 2000);
+                }, 500);
 
             }
         });
@@ -127,22 +135,33 @@ public class BuscaFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     cont = 1;
+                    busca = buscaViewModel.busca.get();
                     adapter.atualizaLista(null);
-                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(binding.edtNome.getText().toString(), "45023bb7", "" + cont);
+                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(busca, "45023bb7", "" + cont);
                     call.enqueue(new Callback<Result>() {
                         @Override
                         public void onResponse(Call<Result> call, Response<Result> response) {
                             f = response.body();
                             if (f.getResponse()) {
-                                binding.viewEmpytList.setVisibility(View.GONE);
                                 getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
+
+                                if(buscaViewModel.emptyList.get()){
+                                    buscaViewModel.emptyList.set(false);
+                                }
+                                if(buscaViewModel.viewProgress.get()){
+                                    buscaViewModel.viewProgress.set(false);
+                                }
+
                                 adapter.atualizaLista(f.getSearch());
                                 binding.listMovies.setAdapter(adapter);
                             } else {
                                 getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
-                                binding.viewEmpytList.setVisibility(View.VISIBLE);
+                                buscaViewModel.emptyList.set(true);
+                                if(buscaViewModel.viewProgress.get()){
+                                    buscaViewModel.viewProgress.set(false);
+                                }
+                                adapter.atualizaLista(null);
                                 binding.listMovies.setAdapter(adapter);
-                                binding.viewProgress.setVisibility(View.GONE);
                             }
                         }
 

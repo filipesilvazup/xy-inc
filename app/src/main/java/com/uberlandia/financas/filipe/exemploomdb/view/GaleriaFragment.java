@@ -1,4 +1,5 @@
 package com.uberlandia.financas.filipe.exemploomdb.view;
+
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.uberlandia.financas.filipe.exemploomdb.databinding.FragmentGaleriaBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.R;
@@ -16,6 +18,7 @@ import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListe
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.GaleriaViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,12 +52,12 @@ public class GaleriaFragment extends Fragment {
     public void onResume() {
         super.onResume();
         todosFilmes = movieDatabase.daoAccess().findAll();
-        if(todosFilmes.isEmpty()){
-            binding.viewEmpytList.setVisibility(View.VISIBLE);
+        if (todosFilmes.isEmpty()) {
+            galeriaViewModel.emptyListCadastrados.set(true);
             adapter = new MyAdapterGaleria(new ArrayList<FilmeSelecionado>());
             binding.listFilmesCadastrados.setAdapter(adapter);
-        }else{
-            binding.viewEmpytList.setVisibility(View.GONE);
+        } else {
+            galeriaViewModel.emptyListCadastrados.set(false);
             adapter = new MyAdapterGaleria(todosFilmes);
             binding.listFilmesCadastrados.setAdapter(adapter);
         }
@@ -78,10 +81,9 @@ public class GaleriaFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        TextView imdbId = v.findViewById(R.id.imdbID);
                         Intent intent = new Intent(getActivity(), CadastrarFilmeActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("imdbid", imdbId.getText().toString());
+                        bundle.putString("imdbid", MyAdapterGaleria.mDataset.get(position).getImdbID());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

@@ -57,7 +57,8 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:textColor="@color/colorPrimaryText"
-                    android:textSize="@dimen/font_size_title" />
+                    android:textSize="@dimen/font_size_title"
+                    android:text="@={itemFilmeViewModel.tvTitulo}"/>
 
                 <TextView
                     android:id="@+id/tv_year"
@@ -65,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt_pull_title"
                     android:textColor="@color/colorSecondaryText"
-                    android:textSize="@dimen/font_size_secondary" />
+                    android:textSize="@dimen/font_size_secondary"
+                    android:text="@={itemFilmeViewModel.tvYear}"/>
 
                 <TextView
                     android:id="@+id/tv_imdbID"
@@ -74,7 +76,8 @@
                     android:layout_below="@+id/txt_pull_title"
                     android:textColor="@color/colorSecondaryText"
                     android:textSize="@dimen/font_size_secondary"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:text="@={itemFilmeViewModel.tvImdbId}"/>
 
             </LinearLayout>
 

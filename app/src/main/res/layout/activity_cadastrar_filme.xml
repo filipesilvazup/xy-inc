@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="cadastrarViewModel"
             type="com.uberlandia.financas.filipe.exemploomdb.viewmodel.CadastrarViewModel" />
@@ -62,11 +64,11 @@
 
                 <TextView
                     android:id="@+id/imdb_rating"
-                    android:text="@={cadastrarViewModel.imdb_rating}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/imdb"
                     android:layout_toRightOf="@+id/imdb"
+                    android:text="@={cadastrarViewModel.imdb_rating}"
                     android:textSize="15dp" />
 
                 <ImageView
@@ -81,11 +83,11 @@
 
                 <TextView
                     android:id="@+id/metascore_rating"
-                    android:text="@={cadastrarViewModel.metascore}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/metascore"
                     android:layout_toRightOf="@+id/metascore"
+                    android:text="@={cadastrarViewModel.metascore}"
                     android:textSize="15dp" />
 
                 <ImageView
@@ -100,11 +102,11 @@
 
                 <TextView
                     android:id="@+id/year_text"
-                    android:text="@={cadastrarViewModel.tv_year}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/year"
                     android:layout_toRightOf="@+id/year"
+                    android:text="@={cadastrarViewModel.tv_year}"
                     android:textSize="15dp" />
 
                 <ImageView
@@ -119,11 +121,11 @@
 
                 <TextView
                     android:id="@+id/runtime_text"
-                    android:text="@={cadastrarViewModel.tv_duracao}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/runtime"
                     android:layout_toRightOf="@+id/runtime"
+                    android:text="@={cadastrarViewModel.tv_duracao}"
                     android:textSize="15dp" />
             </RelativeLayout>
 
@@ -162,7 +164,6 @@
                     android:textSize="25dp" />
 
                 <TextView
-                    android:text="@={cadastrarViewModel.tv_descricao}"
                     android:id="@+id/tv_descricao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -170,6 +171,7 @@
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_descricao}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp"
 
@@ -193,13 +195,13 @@
 
                 <TextView
                     android:id="@+id/tv_director"
-                    android:text="@={cadastrarViewModel.tv_director}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_director}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -221,13 +223,13 @@
 
                 <TextView
                     android:id="@+id/tv_actors"
-                    android:text="@={cadastrarViewModel.tv_actors}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_actors}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -249,13 +251,13 @@
 
                 <TextView
                     android:id="@+id/tv_rated"
-                    android:text="@={cadastrarViewModel.tv_rated}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_rated}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -278,13 +280,13 @@
 
                 <TextView
                     android:id="@+id/tv_released"
-                    android:text="@={cadastrarViewModel.tv_released}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_released}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -306,13 +308,13 @@
 
                 <TextView
                     android:id="@+id/tv_writer"
-                    android:text="@={cadastrarViewModel.tv_writer}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_writer}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -334,13 +336,13 @@
 
                 <TextView
                     android:id="@+id/tv_language"
-                    android:text="@={cadastrarViewModel.tv_language}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_language}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -362,13 +364,13 @@
 
                 <TextView
                     android:id="@+id/tv_country"
-                    android:text="@={cadastrarViewModel.tv_country}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:paddingRight="@dimen/image_horizontal_margin"
+                    android:text="@={cadastrarViewModel.tv_country}"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15dp" />
 
@@ -392,7 +394,7 @@
             android:layout_margin="16dp"
             android:onClick="Salvar"
             android:src="@drawable/ic_save"
-            android:visibility="gone"
+            android:visibility="@{cadastrarViewModel.fabSalvar ? View.VISIBLE : View.GONE}"
             app:layout_anchor="@id/detail_app_bar"
             app:layout_anchorGravity="bottom|right|end" />
 
@@ -401,9 +403,9 @@
             style="@style/FabStyle"
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
-            android:onClick="Salvar"
+            android:onClick="Remover"
             android:src="@drawable/ic_remove"
-            android:visibility="gone"
+            android:visibility="@{cadastrarViewModel.fabRemover ? View.VISIBLE : View.GONE}"
             app:layout_anchor="@id/detail_app_bar"
             app:layout_anchorGravity="bottom|right|end" />
 

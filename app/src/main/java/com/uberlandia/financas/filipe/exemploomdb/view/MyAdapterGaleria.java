@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.uberlandia.financas.filipe.exemploomdb.databinding.ItemFilmeCadastradoBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.R;
+import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.ItemFilmeCadastradoViewModel;
 
 import java.util.List;
@@ -25,10 +26,24 @@ public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapterGaleria.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ItemFilmeCadastradoBinding binding;
+        private final ItemFilmeCadastradoViewModel itemFilmeCadastradoViewModel;
 
-        public ViewHolder(ItemFilmeCadastradoBinding itemFilmeCadastradoBinding) {
+        public ViewHolder(ItemFilmeCadastradoBinding itemFilmeCadastradoBinding, ItemFilmeCadastradoViewModel itemFilmeCadastradoViewModel) {
             super(itemFilmeCadastradoBinding.getRoot());
             this.binding = itemFilmeCadastradoBinding;
+            this.itemFilmeCadastradoViewModel = itemFilmeCadastradoViewModel;
+            this.binding.setItemFilmeCadastradoViewModel(this.itemFilmeCadastradoViewModel);
+        }
+
+        public void bind(FilmeSelecionado filmeSelecionado) {
+
+            itemFilmeCadastradoViewModel.imdbID.set(filmeSelecionado.getImdbID());
+            if (!filmeSelecionado.getPoster().equals("N/A")) {
+                Bitmap bitmapImage = BitmapFactory.decodeByteArray(filmeSelecionado.getImagem(), 0, filmeSelecionado.getImagem().length);
+                binding.imgFilme.setImageBitmap(bitmapImage);
+            } else
+                binding.imgFilme.setImageResource(R.drawable.ic_wallpaper);
+
         }
     }
 
@@ -36,29 +51,20 @@ public class MyAdapterGaleria extends RecyclerView.Adapter<MyAdapterGaleria.View
         this.mDataset = myDataset;
     }
 
-
     @Override
     public MyAdapterGaleria.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        ItemFilmeCadastradoBinding binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
+        ItemFilmeCadastradoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.item_filme_cadastrado, parent, false);
-        return new MyAdapterGaleria.ViewHolder(binding);
+        return new MyAdapterGaleria.ViewHolder(binding, new ItemFilmeCadastradoViewModel());
     }
 
     @Override
     public void onBindViewHolder(MyAdapterGaleria.ViewHolder holder, int position) {
 
-        ((ViewHolder) holder).binding.setItemFilmeCadastradoViewModel(new ItemFilmeCadastradoViewModel());
+        FilmeSelecionado filmeSelecionado = mDataset.get(position);
+        holder.bind(filmeSelecionado);
 
-
-        if (!mDataset.get(position).getPoster().equals("N/A")) {
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(mDataset.get(position).getImagem(), 0, mDataset.get(position).getImagem().length);
-            holder.binding.imgFilme.setImageBitmap(bitmapImage);
-        }
-
-
-        holder.binding.imdbID.setText(mDataset.get(position).getImdbID());
     }
 
     @Override

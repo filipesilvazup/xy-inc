@@ -25,9 +25,6 @@ public class MainTabsActivity extends AppCompatActivity {
         mainTabsViewModel = new MainTabsViewModel();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_tabs);
         binding.setMainTabsViewModel(mainTabsViewModel);
-        binding.tabs.setupWithViewPager(binding.viewpager);
-        binding.setHandler(this);
-        binding.setManager(getSupportFragmentManager());
         setSupportActionBar(binding.toolbar);
         setupViewPager();
     }
