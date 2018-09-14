@@ -81,14 +81,18 @@ public class GaleriaFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        Intent intent = new Intent(getActivity(), CadastrarFilmeActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("imdbid", MyAdapterGaleria.mDataset.get(position).getImdbID());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        goDetalhesFilmes(position);
                     }
                 })
         );
         return binding.getRoot();
+    }
+
+    public void goDetalhesFilmes(int position){
+        Intent intent = new Intent(getActivity(), CadastrarFilmeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("imdbid", MyAdapterGaleria.mDataset.get(position).getImdbID());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

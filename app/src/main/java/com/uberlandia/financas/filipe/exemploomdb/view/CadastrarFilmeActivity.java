@@ -14,18 +14,16 @@ import android.view.View;
 import com.uberlandia.financas.filipe.exemploomdb.databinding.ActivityCadastrarFilmeBinding;
 import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
 import com.uberlandia.financas.filipe.exemploomdb.R;
-import com.uberlandia.financas.filipe.exemploomdb.service.RetrofitConfig;
+import com.uberlandia.financas.filipe.exemploomdb.service.CallbackViewModel;
 import com.uberlandia.financas.filipe.exemploomdb.dao.FilmeDatabase;
 import com.uberlandia.financas.filipe.exemploomdb.utils.Utils;
 import com.uberlandia.financas.filipe.exemploomdb.viewmodel.CadastrarViewModel;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class CadastrarFilmeActivity extends AppCompatActivity {
+public class CadastrarFilmeActivity extends AppCompatActivity implements CallbackViewModel {
     private FilmeDatabase movieDatabase;
-    private FilmeSelecionado f;
+    private FilmeSelecionado filmeSelecionado;
     private String imdbId;
     private Call<FilmeSelecionado> call;
     int vergonhaUnicode = 0x1F605;
@@ -48,12 +46,16 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         jacadastrou = new String(Character.toChars(vergonhaUnicode));
         sucesso = new String(Character.toChars(felizUnicode));
 
+        recuperaDados();
+    }
+
+    public void recuperaDados() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         imdbId = bundle.getString("imdbid");
         movieDatabase = Utils.getFilmeDatabaseInstance(getApplicationContext());
 
-        f = movieDatabase.daoAccess().findFilmeById(imdbId);
+        filmeSelecionado = movieDatabase.daoAccess().findFilmeById(imdbId);
         binding.toolbar12.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,12 +63,12 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
             }
         });
 
-        if (f != null) {
+        if (filmeSelecionado != null) {
             cadastrarViewModel.fabSalvar.set(false);
             cadastrarViewModel.fabRemover.set(true);
 
-            if (!f.getPoster().equals("N/A")) {
-                Bitmap bitmapImage = BitmapFactory.decodeByteArray(f.getImagem(), 0, f.getImagem().length);
+            if (!filmeSelecionado.getPoster().equals("N/A")) {
+                Bitmap bitmapImage = BitmapFactory.decodeByteArray(filmeSelecionado.getImagem(), 0, filmeSelecionado.getImagem().length);
                 binding.imgFilme.setImageBitmap(bitmapImage);
             }
             preencherView();
@@ -74,40 +76,20 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
         } else {
             cadastrarViewModel.fabSalvar.set(true);
             cadastrarViewModel.fabRemover.set(false);
-
-            call = new RetrofitConfig().getFilmeService().buscarFilme(imdbId, "45023bb7");
-            call.enqueue(new Callback<FilmeSelecionado>() {
-                @Override
-                public void onResponse(Call<FilmeSelecionado> call, Response<FilmeSelecionado> response) {
-                    f = response.body();
-                    System.out.println(f.toString());
-                    if (!f.getPoster().equals("N/A")) {
-                        Utils.setImagePicasso(f.getPoster(), binding.imgFilme);
-                        
-                    }
-                    preencherView();
-                }
-
-                @Override
-                public void onFailure(Call<FilmeSelecionado> call, Throwable t) {
-                    Snackbar.make(findViewById(android.R.id.content), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
+            cadastrarViewModel.detalhesFilme(imdbId, this);
         }
     }
 
     public void Salvar(final View view) {
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
-        builder.setMessage("Deseja salvar o filme: " + f.getTitle() + " ?")
+        builder.setMessage("Deseja salvar o filme: " + filmeSelecionado.getTitle() + " ?")
                 .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) == null) {
-                            if (!f.getPoster().equals("N/A")) {
-                                f.setImagem(Utils.convertBitmapToArrayByte(binding.imgFilme));
+                        if (movieDatabase.daoAccess().findFilmeById(filmeSelecionado.getImdbID()) == null) {
+                            if (!filmeSelecionado.getPoster().equals("N/A")) {
+                                filmeSelecionado.setImagem(Utils.convertBitmapToArrayByte(binding.imgFilme));
                             }
-                            movieDatabase.daoAccess().insertFilme(f);
+                            movieDatabase.daoAccess().insertFilme(filmeSelecionado);
                             Snackbar.make(view, "FILME SALVO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
 
@@ -125,12 +107,12 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
     }
 
     public void Remover(final View view) {
-        if (movieDatabase.daoAccess().findFilmeById(f.getImdbID()) != null) {
+        if (movieDatabase.daoAccess().findFilmeById(filmeSelecionado.getImdbID()) != null) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarFilmeActivity.this);
-            builder.setMessage("Deseja remover o filme: " + f.getTitle() + " ?")
+            builder.setMessage("Deseja remover o filme: " + filmeSelecionado.getTitle() + " ?")
                     .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            movieDatabase.daoAccess().deleteByID(f.getImdbID());
+                            movieDatabase.daoAccess().deleteByID(filmeSelecionado.getImdbID());
                             Snackbar.make(view, "FILME REMOVIDO COM SUCESSO " + sucesso, Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                         }
@@ -148,7 +130,17 @@ public class CadastrarFilmeActivity extends AppCompatActivity {
 
 
     public void preencherView() {
-        binding.toolbar12.setTitle(f.getTitle());
-        cadastrarViewModel.preencherView(f);
+        binding.toolbar12.setTitle(filmeSelecionado.getTitle());
+        cadastrarViewModel.preencherView(filmeSelecionado);
+    }
+
+    @Override
+    public void callbackServiceFilme(Object object) {
+        filmeSelecionado = (FilmeSelecionado) object;
+        if (!filmeSelecionado.getPoster().equals("N/A")) {
+            Utils.setImagePicasso(filmeSelecionado.getPoster(), binding.imgFilme);
+
+        }
+        preencherView();
     }
 }

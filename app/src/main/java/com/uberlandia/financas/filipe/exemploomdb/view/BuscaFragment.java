@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 
 import com.uberlandia.financas.filipe.exemploomdb.R;
 import com.uberlandia.financas.filipe.exemploomdb.databinding.FragmentBuscaBinding;
+import com.uberlandia.financas.filipe.exemploomdb.model.FilmeSelecionado;
+import com.uberlandia.financas.filipe.exemploomdb.service.CallbackViewModel;
 import com.uberlandia.financas.filipe.exemploomdb.service.RecyclerItemClickListener;
 import com.uberlandia.financas.filipe.exemploomdb.service.RetrofitConfig;
 import com.uberlandia.financas.filipe.exemploomdb.model.Filme;
@@ -29,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuscaFragment extends Fragment {
+public class BuscaFragment extends Fragment implements CallbackViewModel {
 
     public BuscaFragment() {
     }
@@ -73,12 +76,7 @@ public class BuscaFragment extends Fragment {
                 new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("imdbid", MyAdapter.mDataset.get(position).getImdbID());
-                        intent.putExtras(bundle);
-                        getActivity().startActivityForResult(intent, 1);
-
+                       goDetalhesFilmes(position);
                     }
                 })
         );
@@ -89,43 +87,7 @@ public class BuscaFragment extends Fragment {
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                buscaViewModel.viewProgress.set(true);
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        cont++;
-                        Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(busca, "45023bb7", "" + cont);
-                        call.enqueue(new Callback<Result>() {
-                            @Override
-                            public void onResponse(Call<Result> call, Response<Result> response) {
-
-                                f = response.body();
-
-                                if (f.getResponse()) {
-                                    getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
-                                    if(buscaViewModel.emptyList.get()){
-                                        buscaViewModel.emptyList.set(false);
-                                    }
-                                    buscaViewModel.viewProgress.set(false);
-                                    adapter.atualizaLista(f.getSearch());
-                                    adapter.setLoaded();
-                                }else{
-                                    Snackbar.make(getActivity().findViewById(android.R.id.content), "ÚLTIMOS FILMES DA PESQUISA" + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
-                                            .setAction("Action", null).show();
-                                    buscaViewModel.viewProgress.set(false);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Result> call, Throwable t) {
-                                Snackbar.make(getView(), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                            }
-                        });
-
-                    }
-                }, 500);
-
+                carregarFilmes();
             }
         });
 
@@ -134,49 +96,72 @@ public class BuscaFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    cont = 1;
-                    busca = buscaViewModel.busca.get();
-                    adapter.atualizaLista(null);
-                    Call<Result> call = new RetrofitConfig().getFilmeService().buscarFilmes(busca, "45023bb7", "" + cont);
-                    call.enqueue(new Callback<Result>() {
-                        @Override
-                        public void onResponse(Call<Result> call, Response<Result> response) {
-                            f = response.body();
-                            if (f.getResponse()) {
-                                getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
-
-                                if(buscaViewModel.emptyList.get()){
-                                    buscaViewModel.emptyList.set(false);
-                                }
-                                if(buscaViewModel.viewProgress.get()){
-                                    buscaViewModel.viewProgress.set(false);
-                                }
-
-                                adapter.atualizaLista(f.getSearch());
-                                binding.listMovies.setAdapter(adapter);
-                            } else {
-                                getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
-                                buscaViewModel.emptyList.set(true);
-                                if(buscaViewModel.viewProgress.get()){
-                                    buscaViewModel.viewProgress.set(false);
-                                }
-                                adapter.atualizaLista(null);
-                                binding.listMovies.setAdapter(adapter);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Result> call, Throwable t) {
-                            Snackbar.make(getView(), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-                        }
-                    });
+                    novaBuscaFilme();
                 }
-
                 return true;
             }
         });
 
         return binding.getRoot();
     }
+
+    public void novaBuscaFilme(){
+        cont = 0;
+        busca = buscaViewModel.busca.get();
+        adapter.atualizaLista(null);
+        binding.listMovies.setAdapter(adapter);
+        carregarFilmes();
+    }
+
+    public void carregarFilmes() {
+        cont++;
+        buscaViewModel.moreItemList(cont, busca, this);
+    }
+
+
+    @Override
+    public void callbackServiceFilme(final Object object) {
+        buscaViewModel.viewProgress.set(true);
+        final Result result = (Result) object;
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (result == null) {
+                    Snackbar.make(getView(), "FALHA NA COMUNICAÇÃO " + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else if (result.getResponse()) {
+                    getActivity().setTitle("Resultados " + new String(Character.toChars(0x1F603)));
+                    if (buscaViewModel.emptyList.get()) {
+                        buscaViewModel.emptyList.set(false);
+                    }
+                    buscaViewModel.viewProgress.set(false);
+                    adapter.atualizaLista(result.getSearch());
+                    adapter.setLoaded();
+                } else if (cont == 1 && !result.getResponse()) {
+                    getActivity().setTitle("Filme não encontrado " + new String(Character.toChars(0x1F61E)));
+                    buscaViewModel.emptyList.set(true);
+                    if (buscaViewModel.viewProgress.get()) {
+                        buscaViewModel.viewProgress.set(false);
+                    }
+                } else {
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), "ÚLTIMOS FILMES DA PESQUISA" + new String(Character.toChars(0x1F61E)), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    buscaViewModel.viewProgress.set(false);
+                }
+            }
+        }, 1000);
+
+    }
+
+
+    public void goDetalhesFilmes(int position){
+        Intent intent = new Intent(getContext(), CadastrarFilmeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("imdbid", MyAdapter.mDataset.get(position).getImdbID());
+        intent.putExtras(bundle);
+        getActivity().startActivityForResult(intent, 1);
+
+    }
+
 }
+
